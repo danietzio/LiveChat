@@ -44,7 +44,7 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   - [ ] Better reports of chats and agents prgoress and activity in dashboard.
   - [ ] ...
   
-> ** Next Phases **
+>** Next Phases **
   - [ ] Awesome Teamwork tools for agents.
   - [ ] Powerfull Administrator Panel for managing agents activity, progress and ... .
   - [ ] Mobile application ( IOS, Android, Windows Phone )
