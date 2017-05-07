@@ -11,12 +11,13 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   * Transfer chat to other agents.
   * Get detailed reports of agents activity and .... in previous months.
   * Shortcuts for changing chats and increasing productivity.
-  * Administator of website can see agents reports in their dashboard.
+  * Management panel for adminitrators.
+  * Teamwork tools for agents.
   * Chat with other agents for solving customers problems.
   * ...
   
 ## Roadmap
- > **Phase One**
+> **Phase One**
   - [x] Desgining Beautiful Chat For client side.
   - [x] Desgining Beautiful Panel for agents.
   - [ ] Sending and receiving messages.
@@ -44,7 +45,7 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   - [ ] Better reports of chats and agents prgoress and activity in dashboard.
   - [ ] ...
   
->** Next Phases **
+> **Next Phases**
   - [ ] Awesome Teamwork tools for agents.
   - [ ] Powerfull Administrator Panel for managing agents activity, progress and ... .
   - [ ] Mobile application ( IOS, Android, Windows Phone )
