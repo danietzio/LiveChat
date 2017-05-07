@@ -17,41 +17,40 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   
 ## Roadmap
  **Phase One**
-  - [x] Subscribe && Unsubscribe RSS's
-  - [x] Get Full Infomation of Each Feed
-  - [x] Manage your websites feeds
-  - [ ] Mark All Feeds as Read
-  - [ ] Mark Feed as Starred Items
-  - [ ] Adding React Router to Application
-  - [ ] Search in all of the feeds
-  - [ ] Filtering the feeds
-  - [ ] Adding Setting Option To Application
-  - [ ] Register, Login, Sign out Functionality
-  - [ ] Converting Redis to MongoDB
-  - [ ] RSS's Categorizing Feature
-  - [ ] Sharing Information with Google+ , Facebook, ...
-  - [ ] Adding Recommender System for recommending popular RSS's
-  - [ ] Making User Experience better with Gsap, Pixijs, ...
-  - [ ] Adding 3D Design to Application
-  - [ ] and more ...
+  - [x] Desgining Beautiful Chat For client side.
+  - [x] Desgining Beautiful Panel for agents.
+  - [ ] Sending and receiving messages.
+  - [ ] Sending files and images in chat.
+  - [ ] Sending stickers in chat.
+  - [ ] Capability of chatting with serveral users at the same time.
+  - [ ] Monitoring online customers activity.
+  - [ ] Getting each user information ( location, previous activity, email , .... )
+  - [ ] Saving customers chat history for increasing speed of response.
+  - [ ] Using redis for saving users details and chats history.
+  - [ ] Getting reports of accepted chats and missed chats in agents dashboard.
+  - [ ] Getting reports of previous month activity for each agent.
+  - [ ] Using charts for showing agents progress and reports in previous months.
+  - [ ] ...
+  
 **Phase Two**
-  - [x] Subscribe && Unsubscribe RSS's
-  - [x] Get Full Infomation of Each Feed
-  - [x] Manage your websites feeds
-  - [ ] Mark All Feeds as Read
-  - [ ] Mark Feed as Starred Items
-  - [ ] Adding React Router to Application
-  - [ ] Search in all of the feeds
-  - [ ] Filtering the feeds
-  - [ ] Adding Setting Option To Application
-  - [ ] Register, Login, Sign out Functionality
-  - [ ] Converting Redis to MongoDB
-  - [ ] RSS's Categorizing Feature
-  - [ ] Sharing Information with Google+ , Facebook, ...
-  - [ ] Adding Recommender System for recommending popular RSS's
-  - [ ] Making User Experience better with Gsap, Pixijs, ...
-  - [ ] Adding 3D Design to Application
-  - [ ] and more ...
+  - [x] Replacing redis service with MongoDB service.
+  - [x] Login and Sign out Ability for agents.
+  - [x] Away/Busy state for each agent.
+  - [ ] Drag && Drop ability of Live chat in client side.
+  - [ ] Capability of opening more than one chat window in agent panel.
+  - [ ] Saving agents information in database.
+  - [ ] Sticky notes for agents.
+  - [ ] Awesome productivity tools for agents.
+  - [ ] Better reports of chats and agents prgoress and activity in dashboard.
+  - [ ] ...
+** Next Phases **
+  - [x] Awesome Teamwork tools for agents.
+  - [x] Powerfull Administrator Panel for managing agents activity, progress and ... .
+  - [ ] Mobile application ( IOS, Android, Windows Phone )
+  - [ ] Desktop application ( Windows, MacOS )
+  - [ ] Wordpress Plugin
+  - [ ] ...
+  
 ## Contact Us
   **Email : Dani.nasiri@gmail.com** 
 
