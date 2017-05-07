@@ -16,7 +16,7 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   * ...
   
 ## Roadmap
- - [x] Phase One
+ **Phase One**
   - [x] Subscribe && Unsubscribe RSS's
   - [x] Get Full Infomation of Each Feed
   - [x] Manage your websites feeds
@@ -34,7 +34,24 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   - [ ] Making User Experience better with Gsap, Pixijs, ...
   - [ ] Adding 3D Design to Application
   - [ ] and more ...
-  
+**Phase Two**
+  - [x] Subscribe && Unsubscribe RSS's
+  - [x] Get Full Infomation of Each Feed
+  - [x] Manage your websites feeds
+  - [ ] Mark All Feeds as Read
+  - [ ] Mark Feed as Starred Items
+  - [ ] Adding React Router to Application
+  - [ ] Search in all of the feeds
+  - [ ] Filtering the feeds
+  - [ ] Adding Setting Option To Application
+  - [ ] Register, Login, Sign out Functionality
+  - [ ] Converting Redis to MongoDB
+  - [ ] RSS's Categorizing Feature
+  - [ ] Sharing Information with Google+ , Facebook, ...
+  - [ ] Adding Recommender System for recommending popular RSS's
+  - [ ] Making User Experience better with Gsap, Pixijs, ...
+  - [ ] Adding 3D Design to Application
+  - [ ] and more ...
 ## Contact Us
   **Email : Dani.nasiri@gmail.com** 
 
