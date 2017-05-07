@@ -16,7 +16,7 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   * ...
   
 ## Roadmap
- **Phase One**
+ > **Phase One**
   - [x] Desgining Beautiful Chat For client side.
   - [x] Desgining Beautiful Panel for agents.
   - [ ] Sending and receiving messages.
@@ -32,7 +32,7 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   - [ ] Using charts for showing agents progress and reports in previous months.
   - [ ] ...
   
-**Phase Two**
+> **Phase Two**
   - [ ] Replacing redis service with MongoDB service.
   - [ ] Login and Sign out Ability for agents.
   - [ ] Away/Busy state for each agent.
@@ -43,7 +43,8 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   - [ ] Awesome productivity tools for agents.
   - [ ] Better reports of chats and agents prgoress and activity in dashboard.
   - [ ] ...
-** Next Phases **
+  
+> ** Next Phases **
   - [ ] Awesome Teamwork tools for agents.
   - [ ] Powerfull Administrator Panel for managing agents activity, progress and ... .
   - [ ] Mobile application ( IOS, Android, Windows Phone )
