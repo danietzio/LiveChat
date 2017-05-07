@@ -33,9 +33,9 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   - [ ] ...
   
 **Phase Two**
-  - [x] Replacing redis service with MongoDB service.
-  - [x] Login and Sign out Ability for agents.
-  - [x] Away/Busy state for each agent.
+  - [ ] Replacing redis service with MongoDB service.
+  - [ ] Login and Sign out Ability for agents.
+  - [ ] Away/Busy state for each agent.
   - [ ] Drag && Drop ability of Live chat in client side.
   - [ ] Capability of opening more than one chat window in agent panel.
   - [ ] Saving agents information in database.
@@ -44,8 +44,8 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   - [ ] Better reports of chats and agents prgoress and activity in dashboard.
   - [ ] ...
 ** Next Phases **
-  - [x] Awesome Teamwork tools for agents.
-  - [x] Powerfull Administrator Panel for managing agents activity, progress and ... .
+  - [ ] Awesome Teamwork tools for agents.
+  - [ ] Powerfull Administrator Panel for managing agents activity, progress and ... .
   - [ ] Mobile application ( IOS, Android, Windows Phone )
   - [ ] Desktop application ( Windows, MacOS )
   - [ ] Wordpress Plugin
