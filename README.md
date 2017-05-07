@@ -16,7 +16,7 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   * ...
   
 ## Roadmap
-# - [x] Phase One
+ - [x] Phase One
   - [x] Subscribe && Unsubscribe RSS's
   - [x] Get Full Infomation of Each Feed
   - [x] Manage your websites feeds
