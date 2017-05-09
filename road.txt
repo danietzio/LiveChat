@@ -1,0 +1,4 @@
+1- ba socket io miam yek barname sade minevisam ke ham tarafe karbar va ham tarafe server 2 ta app bashe ke yeki vase ferestadan az samte karbar , yeki vase samte server
+2- bad desgin samte karbar ro bayad dorost konam
+3- bad desgin samte panele agent haro bayad dorost konam
+4- bad ghabeliate haye samte agent ro ezaf konam.
