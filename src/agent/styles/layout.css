@@ -1,0 +1,82 @@
+.appContainer {
+  width : 100%;
+  position : relative;
+  text-align: center;
+  height: 100%;
+  background: none;
+  margin :  0 auto;
+}
+
+.panelContainer {
+  height: 600px;
+  text-align: center;
+  font-family: 'ubuntu';
+  width: 800px;
+  margin : 0 auto;
+  box-shadow: 0px 0px 15px black;
+  background: none;
+  background-color : none;
+  border-radius: 15px;
+  font-family: 'ubuntu', 'sans-serif';
+}
+
+.panelContainer > div {
+  margin : 0px;
+}
+
+/* Chat Message sending box */
+.panelContainer > div:nth-child(1) {
+  height: 85%;
+  width: 100%;
+  background-color : #2b2f4d;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius : 0px;
+}
+
+.chatBox > header {
+  font-family: 'Bree Serif';
+  color : white;
+}
+
+/* Message Sending Box*/
+.panelContainer > div:nth-child(2) {
+  height: 15%;
+  width: 100%;
+  background-color : #f12585;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius : 15px;
+}
+
+/* Setting form and input setting */
+form {
+  height: 100%;
+  width: 100%;
+}
+
+form > input , form > input:focus  {
+  background : none;
+  border : none;
+  float : left;
+  height: 100%;
+  padding-left : 20px;
+  outline: none;
+  width: 86%;
+  color : white;
+  font-size: 25px;
+  font-family: 'Bree Serif';
+}
+
+form > input::placeholder {
+  color : white;
+}
+
+form > img {
+  float : right;
+  height: 100%;
+  margin-right: 10px;
+  padding : 20px;
+}
