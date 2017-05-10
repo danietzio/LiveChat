@@ -5,6 +5,7 @@ import webpack from 'webpack-stream';
 import watchify from 'watchify';
 import rename from 'gulp-rename';
 import gutil from 'gulp-util';
+import nodemon from 'gulp-nodemon';
 
 watchify.args.debug = true;
 
@@ -31,6 +32,26 @@ function bundleAgent() {
         .on('error', gutil.log)
         .pipe(gulp.dest('public/agent/assets/js'));
 }
+
+// Compiling Node Server es6 syntax
+function nodeCompiler() {
+    return gulp.src("src/agent/server/app.js")
+        .pipe(webpack(require('./webpack.config.js')))
+        .pipe(rename("app-compiled.js"))
+        .on('error', gutil.log)
+        .pipe(gulp.dest('src/agent/server'));
+}
+
+
+// Starting node server
+gulp.task('compile-node',null, () => nodeCompiler());
+
+gulp.task('start-server', ['compile-node'], () => {
+  return nodemon({
+                 script: 'src/agent/server/app-compiled.js' // run ES5 code
+               , tasks: ['compile-node'] // compile synchronously onChange
+  })
+});
 
 // Transpile functions
 gulp.task('transpile', ['transpile-client', 'transpile-agent']);
@@ -66,7 +87,7 @@ gulp.task('serve', ['transpile'], () => {
 gulp.task('client-js-watch', ['transpile-client'], () => { sync.reload() });
 gulp.task('agent-js-watch', ['transpile-agent'], () => { sync2.reload() });
 
-gulp.task('watch', ['serve'], () => {
+gulp.task('watch', ['start-server', 'serve'], () => {
 
     // client side watching
     gulp.watch('src/client/**/*', ['client-js-watch'])
@@ -77,6 +98,7 @@ gulp.task('watch', ['serve'], () => {
     gulp.watch('src/agent/**/*', ['agent-js-watch'])
     gulp.watch('public/agent/assets/styles/style.css', sync2.reload)
     gulp.watch('public/agent/index.html', sync2.reload)
+
 });
 
-gulp.task('default', ['transpile']);
+gulp.task('default', ['start-server']);

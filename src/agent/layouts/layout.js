@@ -35,6 +35,7 @@ export default class Layout extends React.Component {
   }
 
   componentDidMount() {
+    var socket = io();
 
   }
 }
