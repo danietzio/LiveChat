@@ -40,11 +40,12 @@ gulp.task('serve', ['transpile'], () => {
         server: './public/client',
         port: process.env.PORT || 8000,
         host: process.env.IP || 'localhost'
-    });
-
-    sync2.init({
-        server : './public/agent',
-        proxy : 'http://localhost:8080'
+    }, () => {
+      sync2.init({
+        baseDir : './public/agent',
+        proxy : 'localhost:8080',
+        port : process.env.SPORT || 9000
+      });
     });
 
 });
