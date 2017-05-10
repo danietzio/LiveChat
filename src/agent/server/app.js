@@ -2,7 +2,9 @@
 
 var express = require('express');
 var app = express.createServer();
+var path = require('path');
 
+app.use(express.static(path.join(__dirname, '../../../public/agent')));
 
 app.get('/', (req,res, next) => {
   console.log("Request recieved");
