@@ -26,25 +26,4 @@ var clientConfig = {
     }
 };
 
-var serverConfig = {
-  module: {
-    loaders: [
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015']
-        }
-      },{
-        test: /\.json$/,
-        loader: "json",
-      }
-    ]
-  },
-  "target" : "node",
-  "node" : {
-    "fs" : "empty"
-  }
-}
-
-module.exports = { clientConfig, serverConfig }
+module.exports = { clientConfig }

@@ -6,7 +6,9 @@ import watchify from 'watchify';
 import rename from 'gulp-rename';
 import gutil from 'gulp-util';
 import nodemon from 'gulp-nodemon';
-import { clientConfig , serverConfig } from './webpack.config.js';
+import babel from 'gulp-babel';
+
+import { clientConfig } from './webpack.config.js';
 
 watchify.args.debug = true;
 
@@ -37,7 +39,7 @@ function bundleAgent() {
 // Compiling Node Server es6 syntax
 function nodeCompiler() {
     return gulp.src("src/agent/server/app.js")
-        .pipe(webpack(serverConfig))
+        .pipe(babel())
         .pipe(rename("app-compiled.js"))
         .on('error', gutil.log)
         .pipe(gulp.dest('src/agent/server'));
@@ -49,7 +51,7 @@ gulp.task('compile-node',null, () => nodeCompiler());
 
 gulp.task('start-server', ['compile-node'], () => {
   nodemon({
-            script: 'src/agent/server/app.js'
+            script: 'src/agent/server/app-compiled.js'
           , ext: 'html js'
      })
     .on('restart', function () {
