@@ -5,6 +5,8 @@ import webpack from 'webpack-stream';
 import watchify from 'watchify';
 import rename from 'gulp-rename';
 import gutil from 'gulp-util';
+import nodemon from 'gulp-nodemon';
+import { clientConfig , serverConfig } from './webpack.config.js';
 
 watchify.args.debug = true;
 
@@ -17,7 +19,7 @@ watchify.args.debug = true;
 // client Folder bundler function
 function bundleClient() {
     return gulp.src('src/client/app.js')
-        .pipe(webpack(require('./webpack.config.js')))
+        .pipe(webpack(clientConfig))
         .pipe(rename("bundle.js"))
         .on('error', gutil.log)
         .pipe(gulp.dest('public/client/assets/js'));
@@ -26,11 +28,34 @@ function bundleClient() {
 // Agent Folder bundler function
 function bundleAgent() {
     return gulp.src('src/agent/app.js')
-        .pipe(webpack(require('./webpack.config.js')))
+        .pipe(webpack(clientConfig))
         .pipe(rename("bundle.js"))
         .on('error', gutil.log)
         .pipe(gulp.dest('public/agent/assets/js'));
 }
+
+// Compiling Node Server es6 syntax
+function nodeCompiler() {
+    return gulp.src("src/agent/server/app.js")
+        .pipe(webpack(serverConfig))
+        .pipe(rename("app-compiled.js"))
+        .on('error', gutil.log)
+        .pipe(gulp.dest('src/agent/server'));
+}
+
+
+// Starting node server
+gulp.task('compile-node',null, () => nodeCompiler());
+
+gulp.task('start-server', ['compile-node'], () => {
+  nodemon({
+            script: 'src/agent/server/app.js'
+          , ext: 'html js'
+     })
+    .on('restart', function () {
+      console.log('restarted!')
+    })
+});
 
 // Transpile functions
 gulp.task('transpile', ['transpile-client', 'transpile-agent']);
@@ -66,7 +91,7 @@ gulp.task('serve', ['transpile'], () => {
 gulp.task('client-js-watch', ['transpile-client'], () => { sync.reload() });
 gulp.task('agent-js-watch', ['transpile-agent'], () => { sync2.reload() });
 
-gulp.task('watch', ['serve'], () => {
+gulp.task('watch', ['start-server', 'serve'], () => {
 
     // client side watching
     gulp.watch('src/client/**/*', ['client-js-watch'])
@@ -77,6 +102,7 @@ gulp.task('watch', ['serve'], () => {
     gulp.watch('src/agent/**/*', ['agent-js-watch'])
     gulp.watch('public/agent/assets/styles/style.css', sync2.reload)
     gulp.watch('public/agent/index.html', sync2.reload)
+
 });
 
-gulp.task('default', ['transpile']);
+gulp.task('default', ['start-server']);

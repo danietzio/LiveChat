@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 
-module.exports = {
+var clientConfig = {
     plugins: [
         new webpack.DefinePlugin({
             "process.env": {
@@ -25,3 +25,26 @@ module.exports = {
       }]
     }
 };
+
+var serverConfig = {
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
+      },{
+        test: /\.json$/,
+        loader: "json",
+      }
+    ]
+  },
+  "target" : "node",
+  "node" : {
+    "fs" : "empty"
+  }
+}
+
+module.exports = { clientConfig, serverConfig }
