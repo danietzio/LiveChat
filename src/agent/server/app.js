@@ -4,7 +4,7 @@ var http = require('http');
 var express = require('express');
 var app = express.createServer();
 var path = require('path');
-// var io = require('socket.io')(http);
+var io = require('socket.io')(http);
 
 app.use(express.static(path.join(__dirname, '../../../public/agent')));
 
