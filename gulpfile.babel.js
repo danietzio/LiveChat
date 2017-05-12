@@ -33,23 +33,11 @@ function bundleAgent() {
         .pipe(gulp.dest('public/agent/assets/js'));
 }
 
-// Compiling Node Server es6 syntax
-function nodeCompiler() {
-    return gulp.src("src/agent/server/app.js")
-        .pipe(webpack(require('./webpack.config.js')))
-        .pipe(rename("app-compiled.js"))
-        .on('error', gutil.log)
-        .pipe(gulp.dest('src/agent/server'));
-}
 
-
-// Starting node server
-gulp.task('compile-node',null, () => nodeCompiler());
-
-gulp.task('start-server', ['compile-node'], () => {
-  return nodemon({
-                 script: 'src/agent/server/app-compiled.js' // run ES5 code
-               , tasks: ['compile-node'] // compile synchronously onChange
+gulp.task('start-server', null , () => {
+  nodemon({
+    script: 'src/agent/server/app.js'
+    , ext: 'js html'
   })
 });
 
@@ -78,7 +66,6 @@ gulp.task('serve', ['transpile'], () => {
         port : process.env.SPORT || 9000
       });
     });
-
 });
 
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../node_modules/socket.io-client/socket.io.js';
 
 // improt style file
 import '../styles/layout.css';
@@ -35,6 +36,9 @@ export default class Layout extends React.Component {
   }
 
   componentDidMount() {
-
+    var socket = io.connect('http://localhost:8080');
+    socket.on('connection', () => {
+      console.log("Connectino Established!");
+    });
   }
 }
