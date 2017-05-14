@@ -9,11 +9,11 @@
 }
 
 .chatAppContainer {
-  height: 400px;
+  height: 600px;
   text-align: center;
   border-radius: 10px;
   font-family: 'ubuntu';
-  width: 400px;
+  width: 800px;
   margin : 0 auto;
   box-shadow: 0px 0px 15px black;
   background: none;
@@ -27,13 +27,17 @@
 
 /* ChatBox */
 .chatAppContainer > div:nth-child(1) {
-  height: 340px;
+  height: 85%;
   background-color : #006380;
   color : white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px;
+}
+
+.chatBox {
+  overflow-y: scroll;
 }
 
 .chatBox > header {
@@ -43,7 +47,7 @@
 
 /* SendBox */
 .chatAppContainer > div:nth-child(2) {
-  height: 60px;;
+  height: 15%;;
   background-color: rgb(11, 61, 80);
   color : white;
   padding : 0px;
@@ -68,8 +72,7 @@
 .quotas > span > span:nth-child(1):after {
   content : " :"
 }
-.quotas > span > span:nth-child(2) {
-  text-align: right;
+.quotas > span > span:nth-child(3) {
   float : right;
 }
 
