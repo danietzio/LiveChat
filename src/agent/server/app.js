@@ -3,18 +3,21 @@
 var express = require('express');
 var app = express.createServer();
 var path = require('path');
-var io = require('socket.io');
+var server = app.listen(8080, () => console.log("Server Listening to port 8080"));
+var io = require('socket.io')(server);
 
 app.use(express.static(path.join(__dirname, '../../../public/agent')));
+
+app.use((req,res,next) => {
+  console.log("afdgsgadgadkljadslhjdahk");
+  next();
+});
 
 app.get('/', (req,res, next) => {
   console.log("Request recieved");
 
   res.end("HAHAHAHHA");
 });
-
-app.listen(8080, () => console.log("Server Listening to port 8080"));
-
 
 io.on('connection', function (socket) {
   console.log('a user connected');
