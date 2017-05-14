@@ -57,6 +57,8 @@
 .quotas {
   color : black;
   text-align: left;
+  margin : 0% !important;
+  border-radius: 0% !important;
 }
 
 .quotas > span > span:nth-child(1) {
@@ -65,6 +67,10 @@
 }
 .quotas > span > span:nth-child(1):after {
   content : " :"
+}
+.quotas > span > span:nth-child(2) {
+  text-align: right;
+  float : right;
 }
 
 /* Setting form and input setting */
