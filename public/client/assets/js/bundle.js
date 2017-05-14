@@ -21804,7 +21804,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21831,85 +21831,153 @@
 
 
 	var Layout = function (_React$Component) {
-	    _inherits(Layout, _React$Component);
+	  _inherits(Layout, _React$Component);
 
-	    function Layout() {
-	        _classCallCheck(this, Layout);
+	  function Layout() {
+	    _classCallCheck(this, Layout);
 
-	        return _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).call(this));
-	    }
+	    var _this = _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).call(this));
 
-	    // before that component rendered
+	    _this.state = {
+	      messages: []
+	    };
+
+	    // binding this class to functions
+	    _this.messagesTempate = _this.messagesTempate.bind(_this);
+	    return _this;
+	  }
+
+	  // before that component rendered
 
 
-	    _createClass(Layout, [{
-	        key: 'componentWillMount',
-	        value: function componentWillMount() {}
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
+	  _createClass(Layout, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {}
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'appContainer' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'chatAppContainer fluid-container' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'row chatBox' },
+	              _react2.default.createElement(
+	                'header',
 	                null,
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'appContainer' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'chatAppContainer fluid-container' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'row chatBox' },
-	                            _react2.default.createElement(
-	                                'header',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'p',
-	                                    null,
-	                                    'Live Chat application'
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'quotas well' },
-	                                _react2.default.createElement(
-	                                    'span',
-	                                    null,
-	                                    _react2.default.createElement(
-	                                        'span',
-	                                        null,
-	                                        'Dani'
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'span',
-	                                        null,
-	                                        'Hi Customer'
-	                                    )
-	                                )
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'row sendBox' },
-	                            _react2.default.createElement(
-	                                'form',
-	                                { action: '' },
-	                                _react2.default.createElement('input', { type: 'text', placeholder: 'Type Here....' })
-	                            )
-	                        )
-	                    )
+	                  'p',
+	                  null,
+	                  'Live Chat application'
 	                )
-	            );
-	        }
+	              ),
+	              this.messagesTempate()
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'row sendBox' },
+	              _react2.default.createElement(
+	                'form',
+	                null,
+	                _react2.default.createElement('input', { type: 'text', placeholder: 'Type Here....' })
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
 
-	        // after that component rendered
+	    // after that component rendered
 
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
-	    }]);
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
 
-	    return Layout;
+	      var socket = io.connect("http://localhost:8080");
+
+	      (0, _jquery2.default)(".sendBox form").on('submit', function (e) {
+	        e.preventDefault();
+
+	        // client anwser to agent
+	        var clientAnwser = {
+	          name: 'client',
+	          msg: 'I have a realy fucking problem!!!',
+	          date: new Date()
+	        };
+
+	        // emiting anwser from client to agent
+	        socket.emit('client message', clientAnwser);
+
+	        // adding new anwser to our messages state
+	        var prevMessages = _this2.state.messages;
+	        prevMessages.push(clientAnwser);
+
+	        // updating previous messages
+	        _this2.setState(function (prevState, props) {
+	          return { message: prevMessages };
+	        });
+	      });
+
+	      socket.on("agentMessage", function (val) {
+
+	        // adding new anwser to our messages state
+	        var prevMessages = _this2.state.messages;
+	        prevMessages.push(val);
+
+	        // updating previous messages
+	        _this2.setState(function (prevState, props) {
+	          return { message: prevMessages };
+	        });
+	      });
+	    }
+
+	    // function for rendering messages in template
+
+	  }, {
+	    key: 'messagesTempate',
+	    value: function messagesTempate() {
+	      return this.state.messages.map(function (msg, index) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'quotas well' },
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              ' ',
+	              msg.name,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              ' ',
+	              msg.msg,
+	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              ' ',
+	              msg.date.toString(),
+	              ' '
+	            )
+	          )
+	        );
+	      });
+	    }
+	  }]);
+
+	  return Layout;
 	}(_react2.default.Component);
 
 	exports.default = Layout;
@@ -31769,7 +31837,7 @@
 
 
 	// module
-	exports.push([module.id, "/*Containers*/\n.appContainer {\n  width : 100%;\n  position : relative;\n  text-align: center;\n  height: 100%;\n  background: none;\n  margin :  0 auto;\n}\n\n.chatAppContainer {\n  height: 400px;\n  text-align: center;\n  border-radius: 10px;\n  font-family: 'ubuntu';\n  width: 400px;\n  margin : 0 auto;\n  box-shadow: 0px 0px 15px black;\n  background: none;\n}\n\n/* ChatBox && SendBox */\n.chatAppContainer > div {\n  margin : 0 auto;\n  padding : 1%\n}\n\n/* ChatBox */\n.chatAppContainer > div:nth-child(1) {\n  height: 340px;\n  background-color : #006380;\n  color : white;\n  border-top-left-radius: 10px;\n  border-top-right-radius: 10px;\n  border-bottom-right-radius: 0px;\n  border-bottom-left-radius: 0px;\n}\n\n.chatBox > header {\n  font-size:20px;\n  font-family: 'Bree Serif'\n}\n\n/* SendBox */\n.chatAppContainer > div:nth-child(2) {\n  height: 60px;;\n  background-color: rgb(11, 61, 80);\n  color : white;\n  padding : 0px;\n  border-top-left-radius: 0px;\n  border-top-right-radius: 0px;\n  border-bottom-right-radius: 10px;\n  border-bottom-left-radius: 10px;\n}\n\n/* Messages that sended and recieved */\n.quotas {\n  color : black;\n  text-align: left;\n}\n\n.quotas > span > span:nth-child(1) {\n  font-weight: bold;\n  padding-right: 10px;\n}\n.quotas > span > span:nth-child(1):after {\n  content : \" :\"\n}\n\n/* Setting form and input setting */\nform {\n  height: 100%;\n  width: 100%;\n}\n\nform > input , form > input:focus  {\n  background : none;\n  border : none;\n  width : 100%;\n  height: 100%;\n  padding : 10px;\n  outline: none;\n  color : white;\n  font-size: 18px;\n}\n\nform > input::placeholder {\n  color : white;\n}\n", ""]);
+	exports.push([module.id, "/*Containers*/\n.appContainer {\n  width : 100%;\n  position : relative;\n  text-align: center;\n  height: 100%;\n  background: none;\n  margin :  0 auto;\n}\n\n.chatAppContainer {\n  height: 400px;\n  text-align: center;\n  border-radius: 10px;\n  font-family: 'ubuntu';\n  width: 400px;\n  margin : 0 auto;\n  box-shadow: 0px 0px 15px black;\n  background: none;\n}\n\n/* ChatBox && SendBox */\n.chatAppContainer > div {\n  margin : 0 auto;\n  padding : 1%\n}\n\n/* ChatBox */\n.chatAppContainer > div:nth-child(1) {\n  height: 340px;\n  background-color : #006380;\n  color : white;\n  border-top-left-radius: 10px;\n  border-top-right-radius: 10px;\n  border-bottom-right-radius: 0px;\n  border-bottom-left-radius: 0px;\n}\n\n.chatBox > header {\n  font-size:20px;\n  font-family: 'Bree Serif'\n}\n\n/* SendBox */\n.chatAppContainer > div:nth-child(2) {\n  height: 60px;;\n  background-color: rgb(11, 61, 80);\n  color : white;\n  padding : 0px;\n  border-top-left-radius: 0px;\n  border-top-right-radius: 0px;\n  border-bottom-right-radius: 10px;\n  border-bottom-left-radius: 10px;\n}\n\n/* Messages that sended and recieved */\n.quotas {\n  color : black;\n  text-align: left;\n  margin : 0% !important;\n  border-radius: 0% !important;\n}\n\n.quotas > span > span:nth-child(1) {\n  font-weight: bold;\n  padding-right: 10px;\n}\n.quotas > span > span:nth-child(1):after {\n  content : \" :\"\n}\n.quotas > span > span:nth-child(2) {\n  text-align: right;\n  float : right;\n}\n\n/* Setting form and input setting */\nform {\n  height: 100%;\n  width: 100%;\n}\n\nform > input , form > input:focus  {\n  background : none;\n  border : none;\n  width : 100%;\n  height: 100%;\n  padding : 10px;\n  outline: none;\n  color : white;\n  font-size: 18px;\n}\n\nform > input::placeholder {\n  color : white;\n}\n", ""]);
 
 	// exports
 

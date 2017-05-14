@@ -33,7 +33,7 @@ export default class Layout extends React.Component {
                   { this.messagesTempate() }
                 </div>
                 <div className="row sendBox">
-                  <form action="">
+                  <form>
                     <input type="text" placeholder="Type Here...."/>
                   </form>
                 </div>
@@ -45,7 +45,9 @@ export default class Layout extends React.Component {
 
     // after that component rendered
     componentDidMount() {
-        $(".sendBox > form").on('submit', (e) => {
+        var socket = io.connect("http://localhost:8080");
+
+        $(".sendBox form").on('submit', (e) => {
           e.preventDefault();
 
           // client anwser to agent
@@ -55,7 +57,29 @@ export default class Layout extends React.Component {
             date : new Date()
           }
 
-          
+          // emiting anwser from client to agent
+          socket.emit('client message', clientAnwser);
+
+          // adding new anwser to our messages state
+          let prevMessages = this.state.messages;
+          prevMessages.push(clientAnwser);
+
+          // updating previous messages
+          this.setState((prevState, props) => {
+            return { message : prevMessages}
+          });
+        });
+
+        socket.on("agentMessage", (val) => {
+
+          // adding new anwser to our messages state
+          let prevMessages = this.state.messages;
+          prevMessages.push(val);
+
+          // updating previous messages
+          this.setState((prevState, props) => {
+            return { message : prevMessages}
+          });
         });
     }
 
