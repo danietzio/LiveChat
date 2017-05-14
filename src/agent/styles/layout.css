@@ -35,9 +35,33 @@
   border-bottom-right-radius : 0px;
 }
 
+.chatBox {
+  overflow-y: scroll;
+}
+
 .chatBox > header {
   font-family: 'Bree Serif';
   color : white;
+}
+
+/* Messages that sended and recieved */
+.userQuota {
+  color : black;
+  background-color: white;
+  padding: 12px;
+  text-align: left;
+  border-top : 1px solid black;
+}
+.userQuota > span > span:nth-child(1) {
+  font-weight: bold;
+  padding-right: 10px;
+}
+.userQuota > span > span:nth-child(1):after {
+  content : " :"
+}
+.userQuota > span > span:nth-child(3) {
+  text-align: right;
+  float : right;
 }
 
 /* Message Sending Box*/

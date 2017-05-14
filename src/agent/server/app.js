@@ -16,18 +16,27 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get('/', (req, res, next) => {
+  res.end('Hi , Your Welcome');
+})
 
 io.on('connection', function (socket) {
   console.log('a user connected');
-
-  socket.on('agentMessage', function(client) {
-    //  console.log(client);
-  });
 
   socket.on('disconnect', function () {
       console.log("User disconnected");
   });
 
-  // send msg to specific user
-  io.sockets.connected[socket.id].emit('id',socket.id);
+  socket.on('agent message', function(val) {
+      console.log('agent Message Recived : ', val.name, val.msg);
+
+      // send msg to specific user
+      io.sockets.connected[socket.id].emit('clientMessage',
+          {
+            'name' : 'ali',
+            'msg' : 'Hi sir how are you? i have problem!',
+            'date' : new Date()
+          });
+  });
+
 });
