@@ -17,10 +17,17 @@ app.use((req, res, next) => {
 });
 
 
-io.on('connection', function(socket){
+io.on('connection', function (socket) {
   console.log('a user connected');
 
-  socket.on('disconnect', function() {
-      console.log("User Disconnected")
-  })
+  socket.on('agentMessage', function(client) {
+    //  console.log(client);
+  });
+
+  socket.on('disconnect', function () {
+      console.log("User disconnected");
+  });
+
+  // send msg to specific user
+  io.sockets.connected[socket.id].emit('id',socket.id);
 });

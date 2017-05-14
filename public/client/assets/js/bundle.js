@@ -21804,7 +21804,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -21827,85 +21827,85 @@
 
 
 	var Layout = function (_React$Component) {
-	    _inherits(Layout, _React$Component);
+	  _inherits(Layout, _React$Component);
 
-	    function Layout() {
-	        _classCallCheck(this, Layout);
+	  function Layout() {
+	    _classCallCheck(this, Layout);
 
-	        return _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).call(this));
-	    }
+	    return _possibleConstructorReturn(this, (Layout.__proto__ || Object.getPrototypeOf(Layout)).call(this));
+	  }
 
-	    // before that component rendered
+	  // before that component rendered
 
 
-	    _createClass(Layout, [{
-	        key: 'componentWillMount',
-	        value: function componentWillMount() {}
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return _react2.default.createElement(
-	                'div',
+	  _createClass(Layout, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {}
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'appContainer' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'chatAppContainer fluid-container' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'row chatBox' },
+	              _react2.default.createElement(
+	                'header',
 	                null,
 	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'appContainer' },
-	                    _react2.default.createElement(
-	                        'div',
-	                        { className: 'chatAppContainer fluid-container' },
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'row chatBox' },
-	                            _react2.default.createElement(
-	                                'header',
-	                                null,
-	                                _react2.default.createElement(
-	                                    'p',
-	                                    null,
-	                                    'Live Chat application'
-	                                )
-	                            ),
-	                            _react2.default.createElement(
-	                                'div',
-	                                { className: 'quotas well' },
-	                                _react2.default.createElement(
-	                                    'span',
-	                                    null,
-	                                    _react2.default.createElement(
-	                                        'span',
-	                                        null,
-	                                        'Dani'
-	                                    ),
-	                                    _react2.default.createElement(
-	                                        'span',
-	                                        null,
-	                                        'Hi Customer'
-	                                    )
-	                                )
-	                            )
-	                        ),
-	                        _react2.default.createElement(
-	                            'div',
-	                            { className: 'row sendBox' },
-	                            _react2.default.createElement(
-	                                'form',
-	                                { action: '' },
-	                                _react2.default.createElement('input', { type: 'text', placeholder: 'Type Here....' })
-	                            )
-	                        )
-	                    )
+	                  'p',
+	                  null,
+	                  'Live Chat application'
 	                )
-	            );
-	        }
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'quotas well' },
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    'Dani'
+	                  ),
+	                  _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    'Hi Customer'
+	                  )
+	                )
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'row sendBox' },
+	              _react2.default.createElement(
+	                'form',
+	                { action: '' },
+	                _react2.default.createElement('input', { type: 'text', placeholder: 'Type Here....' })
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
 
-	        // after that component rendered
+	    // after that component rendered
 
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {}
-	    }]);
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {}
+	  }]);
 
-	    return Layout;
+	  return Layout;
 	}(_react2.default.Component);
 
 	exports.default = Layout;

@@ -37,8 +37,11 @@ export default class Layout extends React.Component {
 
   componentDidMount() {
     var socket = io.connect('http://localhost:8080');
-    socket.on('connection', () => {
-      console.log("Connectino Established!");
-    });
+
+    // sending message to server
+    socket.emit('agentMessage', 'Hello World!');
+
+    // getting self id
+    socket.on('id', (val) => console.log(val));
   }
 }
