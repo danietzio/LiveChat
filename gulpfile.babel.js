@@ -7,8 +7,8 @@ import rename from 'gulp-rename';
 import gutil from 'gulp-util';
 import nodemon from 'gulp-nodemon';
 import babel from 'gulp-babel';
-
 import { clientConfig } from './webpack.config.js';
+
 
 watchify.args.debug = true;
 
@@ -84,7 +84,6 @@ gulp.task('serve', ['transpile'], () => {
         port : process.env.SPORT || 9000
       });
     });
-
 });
 
 
