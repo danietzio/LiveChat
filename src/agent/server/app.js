@@ -9,6 +9,7 @@ var io = require('socket.io')(server);
 
 app.use(express.static(path.join(__dirname, '../../../public/agent')));
 
+
 // Setting "Access-Control-Allow-Origin" to all responses
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods" , "PUT, GET, DELETE");
@@ -35,6 +36,14 @@ io.on('connection', function (socket) {
           {
             'name' : 'ali',
             'msg' : 'Hi sir how are you? i have problem!',
+  socket.on('client message', function(val) {
+      console.log('client Message Recived : ', val.name, val.msg);
+
+      // send msg to specific user
+      io.sockets.connected[socket.id].emit('agentMessage',
+          {
+            'name' : 'Agent',
+            'msg' : 'Hi sir how are you? how can i help you??',
             'date' : new Date()
           });
   });
