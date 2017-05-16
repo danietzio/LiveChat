@@ -53,23 +53,23 @@ export default class Layout extends React.Component {
         e.preventDefault();
 
         // Agent anwser to client
-        let agentMsg = {
+        const agentMsg = {
           'name' : 'Agent',
           'msg' : $(".sendBox > form > input").val(),
           'date' : new Date()
         };
 
         $(".sendBox > form > input").val('');
-        
+
         // sending anwser to client
         socket.emit('agent message', agentMsg);
 
         // saving new anwser in the messages
-        let prevMessages = this.state.messages;
+        const prevMessages = this.state.messages;
 
         prevMessages.push(agentMsg);
 
-        this.setState((prevState) => {
+        this.setState(() => {
           return { messages : prevMessages};
         });
 
@@ -78,12 +78,12 @@ export default class Layout extends React.Component {
     // getting self id
     socket.on('clientMessage', ( newMessage ) => {
         // saving new anwser in the messages
-        let prevMessages = this.state.messages;
+        const prevMessages = this.state.messages;
 
         prevMessages.push(newMessage);
 
         // saving new client message in messages
-        this.setState((prevState) => {
+        this.setState(() => {
           return { messages : prevMessages};
         });
     });
@@ -94,7 +94,7 @@ export default class Layout extends React.Component {
   messagesTemplate() {
     console.log("&(*&*&*&*&*)");
 
-    return this.state.messages.map((msg,index) => {
+    return this.state.messages.map((msg) => {
         return (
           <div className="userQuota">
             <span>

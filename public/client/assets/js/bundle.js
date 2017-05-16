@@ -21916,7 +21916,7 @@
 	        prevMessages.push(clientAnwser);
 
 	        // updating previous messages
-	        _this2.setState(function (prevState, props) {
+	        _this2.setState(function () {
 	          return { message: prevMessages };
 	        });
 	      });
@@ -21928,7 +21928,7 @@
 	        prevMessages.push(val);
 
 	        // updating previous messages
-	        _this2.setState(function (prevState, props) {
+	        _this2.setState(function () {
 	          return { message: prevMessages };
 	        });
 	      });
@@ -21939,7 +21939,7 @@
 	  }, {
 	    key: 'messagesTempate',
 	    value: function messagesTempate() {
-	      return this.state.messages.map(function (msg, index) {
+	      return this.state.messages.map(function (msg) {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'quotas well' },

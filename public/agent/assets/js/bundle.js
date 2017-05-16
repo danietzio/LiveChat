@@ -21919,7 +21919,7 @@
 
 	        prevMessages.push(agentMsg);
 
-	        _this2.setState(function (prevState) {
+	        _this2.setState(function () {
 	          return { messages: prevMessages };
 	        });
 	      });
@@ -21932,7 +21932,7 @@
 	        prevMessages.push(newMessage);
 
 	        // saving new client message in messages
-	        _this2.setState(function (prevState) {
+	        _this2.setState(function () {
 	          return { messages: prevMessages };
 	        });
 	      });
@@ -21945,7 +21945,7 @@
 	    value: function messagesTemplate() {
 	      console.log("&(*&*&*&*&*)");
 
-	      return this.state.messages.map(function (msg, index) {
+	      return this.state.messages.map(function (msg) {
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'userQuota' },

@@ -50,7 +50,7 @@ export default class Layout extends React.Component {
           e.preventDefault();
 
           // client anwser to agent
-          let clientAnwser = {
+          const clientAnwser = {
             name : 'client',
             msg : 'I have a realy fucking problem!!!',
             date : new Date()
@@ -60,11 +60,11 @@ export default class Layout extends React.Component {
           socket.emit('client message', clientAnwser);
 
           // adding new anwser to our messages state
-          let prevMessages = this.state.messages;
+          const prevMessages = this.state.messages;
           prevMessages.push(clientAnwser);
 
           // updating previous messages
-          this.setState((prevState, props) => {
+          this.setState(() => {
             return { message : prevMessages}
           });
         });
@@ -72,11 +72,11 @@ export default class Layout extends React.Component {
         socket.on("agentMessage", (val) => {
 
           // adding new anwser to our messages state
-          let prevMessages = this.state.messages;
+          const prevMessages = this.state.messages;
           prevMessages.push(val);
 
           // updating previous messages
-          this.setState((prevState, props) => {
+          this.setState(() => {
             return { message : prevMessages}
           });
         });
@@ -84,7 +84,7 @@ export default class Layout extends React.Component {
 
     // function for rendering messages in template
     messagesTempate() {
-      return this.state.messages.map((msg, index) => {
+      return this.state.messages.map((msg) => {
         return (
           <div className="quotas well">
             <span>

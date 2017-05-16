@@ -17,7 +17,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (req, res, next) => {
+app.get('/', (req, res) => {
   res.end('Hi , Your Welcome');
 })
 
@@ -36,6 +36,9 @@ io.on('connection', function (socket) {
           {
             'name' : 'ali',
             'msg' : 'Hi sir how are you? i have problem!',
+            'date' : new Date()
+          });
+  });
   socket.on('client message', function(val) {
       console.log('client Message Recived : ', val.name, val.msg);
 
