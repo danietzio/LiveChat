@@ -21913,7 +21913,7 @@
 	        var clientAnwser = {
 	          name: 'client',
 	          msg: (0, _jquery2.default)(".sendBox > form > input").val(),
-	          date: new Date()
+	          date: _this2.renderDate()
 	        };
 
 	        // emiting anwser from client to agent
@@ -21977,6 +21977,22 @@
 	          )
 	        );
 	      });
+	    }
+
+	    // rendering date in specific template
+
+	  }, {
+	    key: 'renderDate',
+	    value: function renderDate() {
+	      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	      var date = new Date();
+	      var month = date.getMonth();
+	      var minutes = date.getMinutes().toString().length < 10 ? '0' + date.getMinutes().toString() : date.getMinutes();
+	      var hours = date.getHours();
+	      var pmAm = hours > 12 ? 'PM' : 'AM';
+	      var day = monthNames[month];
+
+	      return day + ' ' + hours + ':' + minutes + ' ' + pmAm;
 	    }
 	  }]);
 

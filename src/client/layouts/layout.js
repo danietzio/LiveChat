@@ -58,7 +58,7 @@ export default class Layout extends React.Component {
           const clientAnwser = {
             name : 'client',
             msg :  $(".sendBox > form > input").val(),
-            date : new Date()
+            date : this.renderDate()
           }
 
           // emiting anwser from client to agent
@@ -99,5 +99,20 @@ export default class Layout extends React.Component {
           </div>
         )
       })
+    }
+
+    // rendering date in specific template
+    renderDate() {
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      const date = new Date();
+      const month = date.getMonth();
+      const minutes = date.getMinutes().toString().length < 10 ? '0' + date.getMinutes().toString() : date.getMinutes();
+      const hours = date.getHours();
+      const pmAm = hours > 12 ? 'PM' : 'AM';
+      const day = monthNames[ month ];
+
+      return day + ' ' + hours + ':' + minutes + ' ' + pmAm ;
     }
 }

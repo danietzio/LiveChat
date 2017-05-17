@@ -15,7 +15,7 @@ export default class Layout extends React.Component {
 
     // binding this to function
     this.messagesTemplate = this.messagesTemplate.bind(this);
-
+    this.renderDate = this.renderDate.bind(this);
   }
 
   componentWillMount() {
@@ -61,7 +61,7 @@ export default class Layout extends React.Component {
         const agentMsg = {
           name : 'Agent',
           msg : $(".sendBox > form > input").val(),
-          date : new Date(),
+          date : this.renderDate(),
           clientId
         };
 
@@ -108,5 +108,20 @@ export default class Layout extends React.Component {
           </div>
         )
     });
+  }
+
+  // rendering date in specific template
+  renderDate() {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+    const date = new Date();
+    const month = date.getMonth();
+    const minutes = date.getMinutes();
+    const hours = date.getHours();
+    const pmAm = hours > 12 ? 'PM' : 'AM';
+    const day = monthNames[ month ];
+
+    return day + ' ' + hours + ':' + minutes + ' ' + pmAm ;
   }
 }
