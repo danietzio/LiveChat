@@ -21,27 +21,48 @@ var io = require('socket.io')(server);
 // functions
 // finding agent for starting chat
 function initlizeAgent() {
-  var min = store.agents[0] && store.agents[0].liveCounts || [];
-  store.agents.map(function (val, i) {
-    if (val.liveCounts < min) {
-      min = val;
-    }
-  });
+  if (store.agents.length == 1) {
+    var counts = store.agents[0].liveCounts;
+    var min = store.agents[0];
 
-  // returning agent id
-  return min.Id || '';
+    store.agents.map(function (val, i) {
+      if (val.liveCounts < counts) {
+        min = val;
+      }
+    });
+
+    // returning agent id
+    return min.id;
+  } else {
+    return '';
+  }
 }
 
 // finding client supporter
 function findAgent(client) {
+  // finding client Index in store
+  var clientIndex = findClient(client);
   var agentIndex = -1;
+
   store.agents.map(function (val, i) {
-    if (val.id == client.id) {
+    if (val.id == store.clients[clientIndex].agentId) {
       agentIndex = i;
     }
   });
 
   return store.agents[agentIndex];
+}
+
+// finding client Index
+function findClient(client) {
+  var clientIndex = -1;
+  store.clients.map(function (val, i) {
+    if (val.id == client.id) {
+      clientIndex = i;
+    }
+  });
+
+  return clientIndex;
 }
 
 app.use(express.static(path.join(__dirname, '../../../public/agent')));
@@ -69,22 +90,38 @@ io.on('connection', function (socket) {
     // finding best agent for anwsering
     var agentId = initlizeAgent();
 
-    // if(agentId != '') {
-    // saving client in anwsering queue
-    store.clients.push({
-      id: socket.id,
-      name: '',
-      email: '',
-      agentId: agentId
-    });
+    if (agentId != '') {
+      // saving client in anwsering queue
+      store.clients.push({
+        id: socket.id,
+        name: '',
+        email: '',
+        agentId: agentId
+      });
 
-    console.log(store);
-    // } else {
-    //   // saving user information for emailing anwser later
-    //   // apologise from user and disconnecting the chat application
-    //   //  socket.disconnect(true);
-    //
-    // }
+      console.log("we have agent id", store.clients);
+    } else {
+      console.log("we dont have agent id", store.clients);
+
+      // saving user information for emailing anwser later
+      // apologise from user and disconnecting the chat application
+      var timer = setInterval(function () {
+        if (initlizeAgent() != '') {
+          var _agentId = initlizeAgent();
+
+          // saving client in anwsering queue
+          store.clients.push({
+            id: socket.id,
+            name: '',
+            email: '',
+            agentId: _agentId
+          });
+
+          // clearing the interval
+          clearInterval(timer);
+        }
+      }, 2000);
+    }
   });
 
   // listening to new comming agents
@@ -95,8 +132,6 @@ io.on('connection', function (socket) {
       email: '',
       liveCounts: 0
     });
-
-    console.log(store);
   });
 
   socket.on('agentMessage', function (data) {
@@ -107,7 +142,7 @@ io.on('connection', function (socket) {
           msg = data.msg,
           date = data.date;
 
-      io.sockets.connected[data.clientId].emit('serverClientMessage', { name: name, msg: msg, date: date });
+      io.sockets.connected[data.clientId].emit('serverAgentMessage', { name: name, msg: msg, date: date });
     } else {
       // we can't proper client
     }
@@ -115,18 +150,22 @@ io.on('connection', function (socket) {
 
   // handling comming messages from client
   socket.on('clientMessage', function (data) {
-
     // finding user supporter
-    var agentId = store.agents[findAgent(socket)].id;
+    var agentId = findAgent(socket).id;
+    var name = data.name,
+        msg = data.msg,
+        date = data.date;
 
-    if (findAgent(socket) != -1) {
-      io.sockets.connected[agentId].emit('serverAgentMessage', {
-        data: data,
+
+    if (agentId) {
+      io.sockets.connected[agentId].emit('serverClientMessage', {
+        name: name,
+        msg: msg,
+        date: date,
         clientId: socket.id
       });
     } else {
-      // we cant find any agent for anwsering
-
+      console.log("Agents aren't online, wait plz!!");
     }
   });
 });

@@ -21902,6 +21902,7 @@
 	      var clientId = '';
 
 	      // sending login announcment to server
+	      // null can be changed to user email , name
 	      socket.emit('agentLogin', null);
 
 	      (0, _jquery2.default)(".sendBox form").on("submit", function (e) {
@@ -21917,9 +21918,8 @@
 
 	        // making input empty
 	        (0, _jquery2.default)(".sendBox > form > input").val('');
-
 	        // sending anwser to client
-	        socket.emit('agent message', agentMsg);
+	        socket.emit('agentMessage', agentMsg);
 
 	        // saving new anwser in the messages
 	        var prevMessages = _this2.state.messages;

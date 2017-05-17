@@ -75,7 +75,6 @@ export default class Layout extends React.Component {
         });
 
         socket.on("serverAgentMessage", (newMessage) => {
-
           // adding new anwser to our messages state
           const prevMessages = this.state.messages;
           prevMessages.push(newMessage);

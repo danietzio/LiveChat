@@ -51,6 +51,7 @@ export default class Layout extends React.Component {
     var clientId = '';
 
     // sending login announcment to server
+    // null can be changed to user email , name
     socket.emit('agentLogin', null);
 
     $(".sendBox form").on("submit", (e) => {
@@ -66,9 +67,8 @@ export default class Layout extends React.Component {
 
         // making input empty
         $(".sendBox > form > input").val('');
-
         // sending anwser to client
-        socket.emit('agent message', agentMsg);
+        socket.emit('agentMessage', agentMsg);
 
         // saving new anwser in the messages
         const prevMessages = this.state.messages;

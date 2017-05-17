@@ -18,27 +18,48 @@ let io = require('socket.io')(server);
 // functions
 // finding agent for starting chat
 function initlizeAgent() {
-  let min = (store.agents[0] && store.agents[0].liveCounts ) || [];
-  store.agents.map((val, i) => {
-    if ( val.liveCounts < min) {
-      min = val;
-    }
-  });
+  if ( store.agents.length == 1 ) {
+    let counts = store.agents[0].liveCounts;
+    let min = store.agents[0];
 
-  // returning agent id
-  return min.Id || '';
+    store.agents.map((val, i) => {
+      if ( val.liveCounts < counts) {
+        min = val;
+      }
+    });
+
+    // returning agent id
+    return min.id;
+  } else {
+    return '';
+  }
 }
 
 // finding client supporter
 function findAgent(client) {
+  // finding client Index in store
+  let clientIndex = findClient(client);
   let agentIndex = -1;
+
   store.agents.map((val,i) => {
-    if( val.id == client.id ) {
+    if( val.id == store.clients[clientIndex].agentId ) {
       agentIndex = i;
     }
   });
 
   return store.agents[agentIndex];
+}
+
+// finding client Index
+function findClient(client) {
+  let clientIndex = -1;
+  store.clients.map((val,i) => {
+    if(val.id == client.id) {
+      clientIndex = i;
+    }
+  });
+
+  return clientIndex;
 }
 
 app.use(express.static(path.join(__dirname, '../../../public/agent')));
@@ -66,7 +87,7 @@ io.on('connection', function (socket) {
     // finding best agent for anwsering
     const agentId = initlizeAgent();
 
-    // if(agentId != '') {
+    if(agentId != '') {
       // saving client in anwsering queue
       store.clients.push({
         id : socket.id,
@@ -75,13 +96,30 @@ io.on('connection', function (socket) {
         agentId : agentId
       });
 
-      console.log(store);
-    // } else {
-    //   // saving user information for emailing anwser later
-    //   // apologise from user and disconnecting the chat application
-    //   //  socket.disconnect(true);
-    //
-    // }
+      console.log("we have agent id", store.clients);
+
+    } else {
+      console.log("we dont have agent id", store.clients);
+
+      // saving user information for emailing anwser later
+      // apologise from user and disconnecting the chat application
+      let timer = setInterval(() => {
+        if(initlizeAgent() != '') {
+          const agentId = initlizeAgent();
+
+          // saving client in anwsering queue
+          store.clients.push({
+            id : socket.id,
+            name : '',
+            email : '',
+            agentId : agentId
+          });
+
+          // clearing the interval
+          clearInterval(timer);
+        }
+      }, 2000);
+    }
   });
 
   // listening to new comming agents
@@ -93,7 +131,6 @@ io.on('connection', function (socket) {
         liveCounts : 0
       });
 
-      console.log(store)
   });
 
   socket.on('agentMessage', function(data) {
@@ -102,7 +139,7 @@ io.on('connection', function (socket) {
         // getting agent response to client
         const { name, msg, date } = data;
         io.sockets.connected[data.clientId]
-            .emit('serverClientMessage',{name,msg,date});
+            .emit('serverAgentMessage',{name,msg,date});
 
       } else {
         // we can't proper client
@@ -112,18 +149,19 @@ io.on('connection', function (socket) {
 
   // handling comming messages from client
   socket.on('clientMessage', function(data) {
-
       // finding user supporter
-      const agentId = store.agents[findAgent(socket)].id;
+      const agentId = findAgent(socket).id
+      const { name, msg, date } = data;
 
-      if(findAgent(socket) != -1) {
-        io.sockets.connected[agentId].emit('serverAgentMessage',{
-          data,
+      if(agentId) {
+        io.sockets.connected[agentId].emit('serverClientMessage',{
+          name,
+          msg,
+          date,
           clientId : socket.id
         })
       } else {
-        // we cant find any agent for anwsering
-
+        console.log("Agents aren't online, wait plz!!");
       }
   });
 });

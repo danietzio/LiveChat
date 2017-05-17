@@ -21930,7 +21930,6 @@
 	      });
 
 	      socket.on("serverAgentMessage", function (newMessage) {
-
 	        // adding new anwser to our messages state
 	        var prevMessages = _this2.state.messages;
 	        prevMessages.push(newMessage);
