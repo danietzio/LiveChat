@@ -1,7 +1,7 @@
 'use strict';
 
 // data holders ( should be saved in Redis.io too!!! )
-let store = {
+const store = {
   clients : [],
   agents : [],
   cMessages : [],
@@ -9,20 +9,20 @@ let store = {
 }
 
 // server side initilization
-let express = require('express');
-let app = express.createServer();
-let path = require('path');
-let server = app.listen(8080, () => console.log("Server Listening to port 8080"));
-let io = require('socket.io')(server);
+const express = require('express');
+const app = express.createServer();
+const path = require('path');
+const server = app.listen(8080, () => console.log("Server Listening to port 8080"));
+const io = require('socket.io')(server);
 
 // functions
 // finding agent for starting chat
 function initlizeAgent() {
   if ( store.agents.length == 1 ) {
-    let counts = store.agents[0].liveCounts;
+    const counts = store.agents[0].liveCounts;
     let min = store.agents[0];
 
-    store.agents.map((val, i) => {
+    store.agents.map((val) => {
       if ( val.liveCounts < counts) {
         min = val;
       }
@@ -38,7 +38,7 @@ function initlizeAgent() {
 // finding client supporter
 function findAgent(client) {
   // finding client Index in store
-  let clientIndex = findClient(client);
+  const clientIndex = findClient(client);
   let agentIndex = -1;
 
   store.agents.map((val,i) => {
@@ -103,7 +103,7 @@ io.on('connection', function (socket) {
 
       // saving user information for emailing anwser later
       // apologise from user and disconnecting the chat application
-      let timer = setInterval(() => {
+      const timer = setInterval(() => {
         if(initlizeAgent() != '') {
           const agentId = initlizeAgent();
 

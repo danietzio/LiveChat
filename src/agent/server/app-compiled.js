@@ -25,7 +25,7 @@ function initlizeAgent() {
     var counts = store.agents[0].liveCounts;
     var min = store.agents[0];
 
-    store.agents.map(function (val, i) {
+    store.agents.map(function (val) {
       if (val.liveCounts < counts) {
         min = val;
       }
