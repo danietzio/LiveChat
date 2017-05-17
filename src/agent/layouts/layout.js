@@ -46,19 +46,25 @@ export default class Layout extends React.Component {
   }
 
   componentDidMount() {
+    // connecting to chat application server
     var socket = io.connect('http://localhost:8080');
+    var clientId = '';
 
+    // sending login announcment to server
+    socket.emit('agentLogin', null);
 
     $(".sendBox form").on("submit", (e) => {
         e.preventDefault();
 
         // Agent anwser to client
         const agentMsg = {
-          'name' : 'Agent',
-          'msg' : $(".sendBox > form > input").val(),
-          'date' : new Date()
+          name : 'Agent',
+          msg : $(".sendBox > form > input").val(),
+          date : new Date(),
+          clientId
         };
 
+        // making input empty
         $(".sendBox > form > input").val('');
 
         // sending anwser to client
@@ -66,9 +72,7 @@ export default class Layout extends React.Component {
 
         // saving new anwser in the messages
         const prevMessages = this.state.messages;
-
         prevMessages.push(agentMsg);
-
         this.setState(() => {
           return { messages : prevMessages};
         });
@@ -76,10 +80,12 @@ export default class Layout extends React.Component {
     });
 
     // getting self id
-    socket.on('clientMessage', ( newMessage ) => {
+    socket.on('serverClientMessage', ( newMessage ) => {
+        // saving clientId
+        clientId = newMessage.clientId;
+
         // saving new anwser in the messages
         const prevMessages = this.state.messages;
-
         prevMessages.push(newMessage);
 
         // saving new client message in messages
@@ -89,11 +95,8 @@ export default class Layout extends React.Component {
     });
   }
 
-
   // function for rendering messages in template
   messagesTemplate() {
-    console.log("&(*&*&*&*&*)");
-
     return this.state.messages.map((msg) => {
         return (
           <div className="userQuota">

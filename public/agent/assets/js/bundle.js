@@ -21897,18 +21897,25 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
+	      // connecting to chat application server
 	      var socket = io.connect('http://localhost:8080');
+	      var clientId = '';
+
+	      // sending login announcment to server
+	      socket.emit('agentLogin', null);
 
 	      (0, _jquery2.default)(".sendBox form").on("submit", function (e) {
 	        e.preventDefault();
 
 	        // Agent anwser to client
 	        var agentMsg = {
-	          'name': 'Agent',
-	          'msg': (0, _jquery2.default)(".sendBox > form > input").val(),
-	          'date': new Date()
+	          name: 'Agent',
+	          msg: (0, _jquery2.default)(".sendBox > form > input").val(),
+	          date: new Date(),
+	          clientId: clientId
 	        };
 
+	        // making input empty
 	        (0, _jquery2.default)(".sendBox > form > input").val('');
 
 	        // sending anwser to client
@@ -21916,19 +21923,19 @@
 
 	        // saving new anwser in the messages
 	        var prevMessages = _this2.state.messages;
-
 	        prevMessages.push(agentMsg);
-
 	        _this2.setState(function () {
 	          return { messages: prevMessages };
 	        });
 	      });
 
 	      // getting self id
-	      socket.on('clientMessage', function (newMessage) {
+	      socket.on('serverClientMessage', function (newMessage) {
+	        // saving clientId
+	        clientId = newMessage.clientId;
+
 	        // saving new anwser in the messages
 	        var prevMessages = _this2.state.messages;
-
 	        prevMessages.push(newMessage);
 
 	        // saving new client message in messages
@@ -21943,8 +21950,6 @@
 	  }, {
 	    key: 'messagesTemplate',
 	    value: function messagesTemplate() {
-	      console.log("&(*&*&*&*&*)");
-
 	      return this.state.messages.map(function (msg) {
 	        return _react2.default.createElement(
 	          'div',
