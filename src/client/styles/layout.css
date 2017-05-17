@@ -1,4 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  bottom : 0;
+  right: 0;
+}
+
+html {
+  direction: rtl;
+  bottom: 0;
+  position: fixed;
+  right: 4%;
+  height: 530px;
+  width: 400px;
+}
+
+
 /*Containers*/
+#root {
+  background: -webkit-linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* Standard syntax */
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  box-shadow: 0px 0px 7px black;
+
+}
 .appContainer {
   width : 100%;
   position : relative;
@@ -9,14 +40,16 @@
 }
 
 .chatAppContainer {
-  height: 600px;
+  height: 530px;
+  width: 400px;
   text-align: center;
-  border-radius: 10px;
   font-family: 'ubuntu';
-  width: 800px;
   margin : 0 auto;
-  box-shadow: 0px 0px 15px black;
   background: none;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 /* ChatBox && SendBox */
@@ -28,16 +61,15 @@
 /* ChatBox */
 .chatAppContainer > div:nth-child(1) {
   height: 85%;
-  background-color : #006380;
   color : white;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
 }
 
 .chatBox {
   overflow-y: scroll;
+}
+
+.chatBox::-webkit-scrollbar {
+  opacity: 0;
 }
 
 .chatBox > header {
@@ -46,15 +78,21 @@
 }
 
 /* SendBox */
+.sendBoxContainer {
+  margin-top : 10px !important;
+}
+
 .chatAppContainer > div:nth-child(2) {
   height: 15%;;
-  background-color: rgb(11, 61, 80);
+  background-color: rgba(31, 103, 159, 0.55);
+  font-family: 'Roboto', sans-serif;
   color : white;
   padding : 0px;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-radius : 14px;
+  width: 359px;
+  height: 62px;
+  padding : 2%;
+  opacity: 65%
 }
 
 /* Messages that sended and recieved */
@@ -80,6 +118,7 @@
 form {
   height: 100%;
   width: 100%;
+  opacity: 0.65
 }
 
 form > input , form > input:focus  {
@@ -91,6 +130,7 @@ form > input , form > input:focus  {
   outline: none;
   color : white;
   font-size: 18px;
+  direction: ltr;
 }
 
 form > input::placeholder {

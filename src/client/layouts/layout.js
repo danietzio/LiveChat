@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 
 // import css files
 import '../styles/layout.css';
@@ -31,10 +32,12 @@ export default class Layout extends React.Component {
                   </header>
                   { this.messagesTempate() }
                 </div>
-                <div className="row sendBox">
-                  <form>
-                    <input type="text" placeholder="Type Here...."/>
-                  </form>
+                <div className="row sendBoxContainer">
+                  <div className="sendBox">
+                    <form>
+                      <input type="text" placeholder="Write Message...."/>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
