@@ -45,7 +45,9 @@ export default class Layout extends React.Component {
                       </span>
                     </div>
                   </header>
-                  { this.messagesTempate() }
+                  <div className="chatMessagesContainer">
+                    { this.messagesTempate() }
+                  </div>
                 </div>
                 <div className="row sendBoxContainer">
                   <div className="sendBox">
@@ -102,7 +104,7 @@ export default class Layout extends React.Component {
 
           // updating previous messages
           this.setState(() => {
-            return { message : prevMessages}
+            return { message : prevMessages }
           });
         });
     }
@@ -111,16 +113,17 @@ export default class Layout extends React.Component {
     messagesTempate() {
       return this.state.messages.map((msg) => {
         return (
-          <div className="chatMessagesContainer">
-            <div className="leftMsgContainer">
-              <div></div>
-              <span>
-                <span>May 10:20</span>
-                <span>Client #1431</span>
-                <span>I have a realy fucking problem!! </span>
-              </span>
+            <div className="rightMsgContainer">
+              <div className="rightMsg">
+                <div></div>
+                <span>
+                  <span>May 10:20</span>
+                  <span>Client #1431</span>
+                  <span>I have a realy fucking problem!! </span>
+                </span>
+              </div>
             </div>
-          </div>
+
         )
       })
     }
