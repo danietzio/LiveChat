@@ -8,7 +8,6 @@ html, body {
 }
 
 html {
-  direction: rtl;
   bottom: 0;
   position: fixed;
   right: 4%;
@@ -55,7 +54,8 @@ html {
 /* ChatBox && SendBox */
 .chatAppContainer > div {
   margin : 0 auto;
-  padding : 1%
+  padding : 1%;
+  direction : rtl;
 }
 
 /* ChatBox */
@@ -145,6 +145,7 @@ form > input::placeholder {
   top: -38px;
   right: -55px;
   background-size: cover;
+  direction: rtl;
 }
 
 #isTyping {
@@ -166,4 +167,120 @@ form > input::placeholder {
   border-radius : 50%;
   display: inline-block;
   margin-left : 1px;
+}
+
+/* Header */
+header {
+  direction: ltr;
+}
+
+header > div {
+  display: inline-block;
+  direction: ltr;
+  font-family: 'Roboto', sans-serif;
+  font-size: 17px;
+}
+
+/* User Detail */
+.userDetail {
+  position: absolute;
+  margin-left: -180px;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.userDetail > span > .circle {
+  width: 7px;
+  height: 7px;
+  background-color: #1EFFED
+}
+
+.userDetail > span > span:nth-child(2) {
+  font-weight: bold;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  margin-left: 3px;
+}
+
+.userDetail > span > span:nth-child(3) {
+  opacity: 0.76;
+  font-size: 12px;
+  margin-left: 3px
+}
+
+/* User Job */
+.userJob {
+  margin-left: 70px;
+  position: absolute;
+  margin-top : 7px;
+}
+
+.userJob > span > span:nth-child(3) {
+  opacity: 0.56;
+  font-size: 12px;
+  margin-top: -3px;
+  padding: 0px;
+  margin-left: -20px;
+  position: absolute;
+}
+
+/* User Image */
+.userImageContainer {
+  margin-left: -67px;
+  margin-top: -50px;
+  position: absolute;
+}
+
+.userImage {
+  background : url('http://localhost:8000/assets/images/2.jpg');
+  background-size: cover;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  z-index: 100;
+}
+
+.chatMessagesContainer {
+  margin-top: 70px;
+  font-size: 10px;
+  text-align: left;
+  font-family: 'Roboto';
+}
+
+.leftMsgContainer {
+  max-width: 40%;
+  direction: ltr;
+  background: #002D56;
+  border-radius: 13px;
+  margin-left: 20px;
+  padding-left: 9px;
+  padding-bottom: 9px;
+  padding-right: 1px;
+  padding-top: 17px;
+}
+
+.leftMsgContainer > div:nth-child(1) {
+  width: 23px;
+  height: 23px;
+  position: absolute;
+  background: url(assets/images/2.jpg);
+  background-size: cover;
+  border-radius: 50%;
+  margin-left: -30px;
+  margin-top: -20px;
+}
+
+.leftMsgContainer > span > span:nth-child(1) {
+  position: absolute;
+  font-size: 7px;
+  margin-top: -13px;
+  margin-left: 86px;
+  color: #fdfdff;
+}
+
+.leftMsgContainer > span > span:nth-child(2) {
+  position: absolute;
+  margin-top: -16px;
+  margin-left: 4px;
+  color: #ffffff;
 }

@@ -28,7 +28,22 @@ export default class Layout extends React.Component {
               <div  className="chatAppContainer fluid-container">
                 <div className="row chatBox">
                   <header>
-                    <p>Live Chat application</p>
+                    <div className="userDetail">
+                      <span>
+                        <div className='circle'></div>
+                        <span>Daniel</span>
+                        <span>Nasiri</span>
+                      </span>
+                    </div>
+                    <div className="userImageContainer">
+                      <div className="userImage"></div>
+                    </div>
+                    <div className="userJob">
+                      <span>
+                        <span>Technical</span><br/>
+                        <span>Support</span>
+                      </span>
+                    </div>
                   </header>
                   { this.messagesTempate() }
                 </div>
@@ -96,12 +111,15 @@ export default class Layout extends React.Component {
     messagesTempate() {
       return this.state.messages.map((msg) => {
         return (
-          <div className="quotas well">
-            <span>
-              <span> { msg.name } </span>
-              <span> { msg.msg } </span>
-              <span> { msg.date.toString() } </span>
-            </span>
+          <div className="chatMessagesContainer">
+            <div className="leftMsgContainer">
+              <div></div>
+              <span>
+                <span>May 10:20</span>
+                <span>Client #1431</span>
+                <span>I have a realy fucking problem!! </span>
+              </span>
+            </div>
           </div>
         )
       })
