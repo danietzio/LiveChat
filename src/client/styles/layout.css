@@ -78,21 +78,19 @@ html {
 }
 
 /* SendBox */
-.sendBoxContainer {
-  margin-top : 10px !important;
-}
-
 .chatAppContainer > div:nth-child(2) {
   height: 15%;;
   background-color: rgba(31, 103, 159, 0.55);
   font-family: 'Roboto', sans-serif;
   color : white;
   padding : 0px;
-  border-radius : 14px;
-  width: 359px;
-  height: 62px;
+  border-radius : 17px;
+  width: 80%;
+  height: 54px;
   padding : 2%;
-  opacity: 65%
+  opacity: 65%;
+  margin-left : 2%;
+
 }
 
 /* Messages that sended and recieved */
@@ -131,8 +129,41 @@ form > input , form > input:focus  {
   color : white;
   font-size: 18px;
   direction: ltr;
+  font-weight: 300;
 }
 
 form > input::placeholder {
   color : white;
+}
+
+/*image*/
+#sendImage {
+  background: url('http://localhost:8000/assets/images/6.png');
+  width: 35px;
+  height: 30px;
+  position: relative;
+  top: -38px;
+  right: -55px;
+  background-size: cover;
+}
+
+#isTyping {
+  position: relative;
+  top: -24px;
+  direction: ltr;
+  font-size: 'Roboto';
+  font-size: 10px;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+  left : 10px;
+  font-weight: 100;
+}
+
+.circle {
+  width: 5px;
+  height: 5px;
+  background-color : white;
+  border-radius : 50%;
+  display: inline-block;
+  margin-left : 1px;
 }

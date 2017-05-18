@@ -37,6 +37,13 @@ export default class Layout extends React.Component {
                     <form>
                       <input type="text" placeholder="Write Message...."/>
                     </form>
+                      <div id="sendImage"></div>
+                      <div id="isTyping">
+                        <span>Support is typing </span>
+                        <div className='circle'></div>
+                        <div className='circle'></div>
+                        <div className='circle'></div>
+                     </div>
                   </div>
                 </div>
               </div>
