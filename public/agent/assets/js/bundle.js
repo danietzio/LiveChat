@@ -21845,7 +21845,7 @@
 
 	    // binding this to function
 	    _this.messagesTemplate = _this.messagesTemplate.bind(_this);
-
+	    _this.renderDate = _this.renderDate.bind(_this);
 	    return _this;
 	  }
 
@@ -21897,38 +21897,45 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
+	      // connecting to chat application server
 	      var socket = io.connect('http://localhost:8080');
+	      var clientId = '';
+
+	      // sending login announcment to server
+	      // null can be changed to user email , name
+	      socket.emit('agentLogin', null);
 
 	      (0, _jquery2.default)(".sendBox form").on("submit", function (e) {
 	        e.preventDefault();
 
 	        // Agent anwser to client
 	        var agentMsg = {
-	          'name': 'Agent',
-	          'msg': (0, _jquery2.default)(".sendBox > form > input").val(),
-	          'date': new Date()
+	          name: 'Agent',
+	          msg: (0, _jquery2.default)(".sendBox > form > input").val(),
+	          date: _this2.renderDate(),
+	          clientId: clientId
 	        };
 
+	        // making input empty
 	        (0, _jquery2.default)(".sendBox > form > input").val('');
-
 	        // sending anwser to client
-	        socket.emit('agent message', agentMsg);
+	        socket.emit('agentMessage', agentMsg);
 
 	        // saving new anwser in the messages
 	        var prevMessages = _this2.state.messages;
-
 	        prevMessages.push(agentMsg);
-
 	        _this2.setState(function () {
 	          return { messages: prevMessages };
 	        });
 	      });
 
 	      // getting self id
-	      socket.on('clientMessage', function (newMessage) {
+	      socket.on('serverClientMessage', function (newMessage) {
+	        // saving clientId
+	        clientId = newMessage.clientId;
+
 	        // saving new anwser in the messages
 	        var prevMessages = _this2.state.messages;
-
 	        prevMessages.push(newMessage);
 
 	        // saving new client message in messages
@@ -21943,8 +21950,6 @@
 	  }, {
 	    key: 'messagesTemplate',
 	    value: function messagesTemplate() {
-	      console.log("&(*&*&*&*&*)");
-
 	      return this.state.messages.map(function (msg) {
 	        return _react2.default.createElement(
 	          'div',
@@ -21976,6 +21981,22 @@
 	          )
 	        );
 	      });
+	    }
+
+	    // rendering date in specific template
+
+	  }, {
+	    key: 'renderDate',
+	    value: function renderDate() {
+	      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	      var date = new Date();
+	      var month = date.getMonth();
+	      var minutes = date.getMinutes();
+	      var hours = date.getHours();
+	      var pmAm = hours > 12 ? 'PM' : 'AM';
+	      var day = monthNames[month];
+
+	      return day + ' ' + hours + ':' + minutes + ' ' + pmAm;
 	    }
 	  }]);
 
@@ -40128,7 +40149,7 @@
 
 
 	// module
-	exports.push([module.id, ".appContainer {\r\n  width : 100%;\r\n  position : relative;\r\n  text-align: center;\r\n  height: 100%;\r\n  background: none;\r\n  margin :  0 auto;\r\n}\r\n\r\n.panelContainer {\r\n  height: 600px;\r\n  text-align: center;\r\n  font-family: 'ubuntu';\r\n  width: 800px;\r\n  margin : 0 auto;\r\n  box-shadow: 0px 0px 15px black;\r\n  background: none;\r\n  background-color : none;\r\n  border-radius: 15px;\r\n  font-family: 'ubuntu', 'sans-serif';\r\n}\r\n\r\n.panelContainer > div {\r\n  margin : 0px;\r\n}\r\n\r\n/* Chat Message sending box */\r\n.panelContainer > div:nth-child(1) {\r\n  height: 85%;\r\n  width: 100%;\r\n  background-color : #2b2f4d;\r\n  border-top-left-radius: 15px;\r\n  border-top-right-radius: 15px;\r\n  border-bottom-left-radius: 0px;\r\n  border-bottom-right-radius : 0px;\r\n}\r\n\r\n.chatBox {\r\n  overflow-y: scroll;\r\n}\r\n\r\n.chatBox > header {\r\n  font-family: 'Bree Serif';\r\n  color : white;\r\n}\r\n\r\n/* Messages that sended and recieved */\r\n.userQuota {\r\n  color : black;\r\n  background-color: white;\r\n  padding: 12px;\r\n  text-align: left;\r\n  border-top : 1px solid black;\r\n}\r\n.userQuota > span > span:nth-child(1) {\r\n  font-weight: bold;\r\n  padding-right: 10px;\r\n}\r\n.userQuota > span > span:nth-child(1):after {\r\n  content : \" :\"\r\n}\r\n.userQuota > span > span:nth-child(3) {\r\n  text-align: right;\r\n  float : right;\r\n}\r\n\r\n/* Message Sending Box*/\r\n.panelContainer > div:nth-child(2) {\r\n  height: 15%;\r\n  width: 100%;\r\n  background-color : #f12585;\r\n  border-top-left-radius: 0px;\r\n  border-top-right-radius: 0px;\r\n  border-bottom-left-radius: 15px;\r\n  border-bottom-right-radius : 15px;\r\n}\r\n\r\n/* Setting form and input setting */\r\nform {\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n\r\nform > input , form > input:focus  {\r\n  background : none;\r\n  border : none;\r\n  float : left;\r\n  height: 100%;\r\n  padding-left : 20px;\r\n  outline: none;\r\n  width: 86%;\r\n  color : white;\r\n  font-size: 25px;\r\n  font-family: 'Bree Serif';\r\n}\r\n\r\nform > input::placeholder {\r\n  color : white;\r\n}\r\n\r\nform > img {\r\n  float : right;\r\n  height: 100%;\r\n  margin-right: 10px;\r\n  padding : 20px;\r\n}\r\n", ""]);
+	exports.push([module.id, ".appContainer {\r\n  width : 100%;\r\n  position : relative;\r\n  text-align: center;\r\n  height: 100%;\r\n  background: none;\r\n  margin :  0 auto;\r\n}\r\n\r\n.panelContainer {\r\n  height: 600px;\r\n  text-align: center;\r\n  font-family: 'ubuntu';\r\n  width: 800px;\r\n  margin : 0 auto;\r\n  box-shadow: 0px 0px 15px black;\r\n  background: none;\r\n  background-color : none;\r\n  border-radius: 15px;\r\n  font-family: 'ubuntu', 'sans-serif';\r\n}\r\n\r\n.panelContainer > div {\r\n  margin : 0px;\r\n}\r\n\r\n/* Chat Message sending box */\r\n.panelContainer > div:nth-child(1) {\r\n  height: 85%;\r\n  width: 100%;\r\n  background-color : #2b2f4d;\r\n  border-top-left-radius: 15px;\r\n  border-top-right-radius: 15px;\r\n  border-bottom-left-radius: 0px;\r\n  border-bottom-right-radius : 0px;\r\n}\r\n\r\n.chatBox {\r\n  overflow-y: scroll;\r\n}\r\n\r\n.chatBox::-webkit-scrollbar {\r\n  width : 10px;\r\n  background-color: white;\r\n  margin-top : 10px;\r\n}\r\n\r\n.chatBox::-webkit-scrollbar-thumb {\r\n  color: black;\r\n  background-color: black;\r\n  border-radius: 50px;\r\n  width: 1px;\r\n}\r\n\r\n.chatBox > header {\r\n  font-family: 'Bree Serif';\r\n  color : white;\r\n}\r\n\r\n/* Messages that sended and recieved */\r\n.userQuota {\r\n  color : black;\r\n  background-color: white;\r\n  padding: 12px;\r\n  text-align: left;\r\n  border-top : 1px solid black;\r\n}\r\n.userQuota > span > span:nth-child(1) {\r\n  font-weight: bold;\r\n  padding-right: 10px;\r\n}\r\n.userQuota > span > span:nth-child(1):after {\r\n  content : \" :\"\r\n}\r\n.userQuota > span > span:nth-child(3) {\r\n  text-align: right;\r\n  float : right;\r\n}\r\n\r\n/* Message Sending Box*/\r\n.panelContainer > div:nth-child(2) {\r\n  height: 15%;\r\n  width: 100%;\r\n  background-color : #f12585;\r\n  border-top-left-radius: 0px;\r\n  border-top-right-radius: 0px;\r\n  border-bottom-left-radius: 15px;\r\n  border-bottom-right-radius : 15px;\r\n}\r\n\r\n/* Setting form and input setting */\r\nform {\r\n  height: 100%;\r\n  width: 100%;\r\n}\r\n\r\nform > input , form > input:focus  {\r\n  background : none;\r\n  border : none;\r\n  float : left;\r\n  height: 100%;\r\n  padding-left : 20px;\r\n  outline: none;\r\n  width: 86%;\r\n  color : white;\r\n  font-size: 25px;\r\n  font-family: 'Bree Serif';\r\n}\r\n\r\nform > input::placeholder {\r\n  color : white;\r\n}\r\n\r\nform > img {\r\n  float : right;\r\n  height: 100%;\r\n  margin-right: 10px;\r\n  padding : 20px;\r\n}\r\n", ""]);
 
 	// exports
 

@@ -39,6 +39,19 @@
   overflow-y: scroll;
 }
 
+.chatBox::-webkit-scrollbar {
+  width : 10px;
+  background-color: white;
+  margin-top : 10px;
+}
+
+.chatBox::-webkit-scrollbar-thumb {
+  color: black;
+  background-color: black;
+  border-radius: 50px;
+  width: 1px;
+}
+
 .chatBox > header {
   font-family: 'Bree Serif';
   color : white;

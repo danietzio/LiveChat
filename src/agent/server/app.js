@@ -1,14 +1,68 @@
 'use strict';
 
-var express = require('express');
-var app = express.createServer();
-var path = require('path');
-var server = app.listen(8080, () => console.log("Server Listening to port 8080"));
-var io = require('socket.io')(server);
+// data holders ( should be saved in Redis.io too!!! )
+const store = {
+  clients : [],
+  agents : [],
+  cMessages : [],
+  aMessages : []
+}
 
+// server side initilization
+const express = require('express');
+const app = express.createServer();
+const path = require('path');
+const server = app.listen(8080, () => console.log("Server Listening to port 8080"));
+const io = require('socket.io')(server);
+
+// functions
+// finding agent for starting chat
+function initlizeAgent() {
+  if ( store.agents.length == 1 ) {
+    const counts = store.agents[0].liveCounts;
+    let min = store.agents[0];
+
+    store.agents.map((val) => {
+      if ( val.liveCounts < counts) {
+        min = val;
+      }
+    });
+
+    // returning agent id
+    return min.id;
+  } else {
+    return '';
+  }
+}
+
+// finding client supporter
+function findAgent(client) {
+  // finding client Index in store
+  const clientIndex = findClient(client);
+  let agentIndex = -1;
+
+  store.agents.map((val,i) => {
+    if( val.id == store.clients[clientIndex].agentId ) {
+      agentIndex = i;
+    }
+  });
+
+  return store.agents[agentIndex];
+}
+
+// finding client Index
+function findClient(client) {
+  let clientIndex = -1;
+  store.clients.map((val,i) => {
+    if(val.id == client.id) {
+      clientIndex = i;
+    }
+  });
+
+  return clientIndex;
+}
 
 app.use(express.static(path.join(__dirname, '../../../public/agent')));
-
 
 // Setting "Access-Control-Allow-Origin" to all responses
 app.use((req, res, next) => {
@@ -28,27 +82,86 @@ io.on('connection', function (socket) {
       console.log("User disconnected");
   });
 
-  socket.on('agent message', function(val) {
-      console.log('agent Message Recived : ', val.name, val.msg);
+  // listening to new comming users
+  socket.on('clientLogin', () => {
+    // finding best agent for anwsering
+    const agentId = initlizeAgent();
 
-      // send msg to specific user
-      io.sockets.connected[socket.id].emit('clientMessage',
-          {
-            'name' : 'ali',
-            'msg' : 'Hi sir how are you? i have problem!',
-            'date' : new Date()
+    if(agentId != '') {
+      // saving client in anwsering queue
+      store.clients.push({
+        id : socket.id,
+        name : '',
+        email : '',
+        agentId : agentId
+      });
+
+      console.log("we have agent id", store.clients);
+
+    } else {
+      console.log("we dont have agent id", store.clients);
+
+      // saving user information for emailing anwser later
+      // apologise from user and disconnecting the chat application
+      const timer = setInterval(() => {
+        if(initlizeAgent() != '') {
+          const agentId = initlizeAgent();
+
+          // saving client in anwsering queue
+          store.clients.push({
+            id : socket.id,
+            name : '',
+            email : '',
+            agentId : agentId
           });
-  });
-  socket.on('client message', function(val) {
-      console.log('client Message Recived : ', val.name, val.msg);
 
-      // send msg to specific user
-      io.sockets.connected[socket.id].emit('agentMessage',
-          {
-            'name' : 'Agent',
-            'msg' : 'Hi sir how are you? how can i help you??',
-            'date' : new Date()
-          });
+          // clearing the interval
+          clearInterval(timer);
+        }
+      }, 2000);
+    }
   });
 
+  // listening to new comming agents
+  socket.on('agentLogin', () => {
+      store.agents.push({
+        id : socket.id,
+        name : '',
+        email : '',
+        liveCounts : 0
+      });
+
+  });
+
+  socket.on('agentMessage', function(data) {
+
+      if(data.clientId) {
+        // getting agent response to client
+        const { name, msg, date } = data;
+        io.sockets.connected[data.clientId]
+            .emit('serverAgentMessage',{name,msg,date});
+
+      } else {
+        // we can't proper client
+      }
+
+  });
+
+  // handling comming messages from client
+  socket.on('clientMessage', function(data) {
+      // finding user supporter
+      const agentId = findAgent(socket).id
+      const { name, msg, date } = data;
+
+      if(agentId) {
+        io.sockets.connected[agentId].emit('serverClientMessage',{
+          name,
+          msg,
+          date,
+          clientId : socket.id
+        })
+      } else {
+        console.log("Agents aren't online, wait plz!!");
+      }
+  });
 });

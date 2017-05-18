@@ -73,18 +73,22 @@ export default class Layout extends React.Component {
     componentDidMount() {
         var socket = io.connect("http://localhost:8080");
 
+        // sending login announcment to server
+        // null can be changed to user email , name
+        socket.emit('clientLogin', null);
+
         $(".sendBox form").on('submit', (e) => {
           e.preventDefault();
 
           // client anwser to agent
           const clientAnwser = {
             name : 'client',
-            msg : 'I have a realy fucking problem!!!',
-            date : new Date()
+            msg :  $(".sendBox > form > input").val(),
+            date : this.renderDate()
           }
 
           // emiting anwser from client to agent
-          socket.emit('client message', clientAnwser);
+          socket.emit('clientMessage', clientAnwser);
 
           // adding new anwser to our messages state
           const prevMessages = this.state.messages;
@@ -96,11 +100,10 @@ export default class Layout extends React.Component {
           });
         });
 
-        socket.on("agentMessage", (val) => {
-
+        socket.on("serverAgentMessage", (newMessage) => {
           // adding new anwser to our messages state
           const prevMessages = this.state.messages;
-          prevMessages.push(val);
+          prevMessages.push(newMessage);
 
           // updating previous messages
           this.setState(() => {
@@ -126,5 +129,20 @@ export default class Layout extends React.Component {
 
         )
       })
+    }
+
+    // rendering date in specific template
+    renderDate() {
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+      const date = new Date();
+      const month = date.getMonth();
+      const minutes = date.getMinutes().toString().length < 10 ? '0' + date.getMinutes().toString() : date.getMinutes();
+      const hours = date.getHours();
+      const pmAm = hours > 12 ? 'PM' : 'AM';
+      const day = monthNames[ month ];
+
+      return day + ' ' + hours + ':' + minutes + ' ' + pmAm ;
     }
 }

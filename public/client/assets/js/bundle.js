@@ -21961,18 +21961,22 @@
 
 	      var socket = io.connect("http://localhost:8080");
 
+	      // sending login announcment to server
+	      // null can be changed to user email , name
+	      socket.emit('clientLogin', null);
+
 	      (0, _jquery2.default)(".sendBox form").on('submit', function (e) {
 	        e.preventDefault();
 
 	        // client anwser to agent
 	        var clientAnwser = {
 	          name: 'client',
-	          msg: 'I have a realy fucking problem!!!',
-	          date: new Date()
+	          msg: (0, _jquery2.default)(".sendBox > form > input").val(),
+	          date: _this2.renderDate()
 	        };
 
 	        // emiting anwser from client to agent
-	        socket.emit('client message', clientAnwser);
+	        socket.emit('clientMessage', clientAnwser);
 
 	        // adding new anwser to our messages state
 	        var prevMessages = _this2.state.messages;
@@ -21984,11 +21988,10 @@
 	        });
 	      });
 
-	      socket.on("agentMessage", function (val) {
-
+	      socket.on("serverAgentMessage", function (newMessage) {
 	        // adding new anwser to our messages state
 	        var prevMessages = _this2.state.messages;
-	        prevMessages.push(val);
+	        prevMessages.push(newMessage);
 
 	        // updating previous messages
 	        _this2.setState(function () {
@@ -22032,6 +22035,22 @@
 	          )
 	        );
 	      });
+	    }
+
+	    // rendering date in specific template
+
+	  }, {
+	    key: 'renderDate',
+	    value: function renderDate() {
+	      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	      var date = new Date();
+	      var month = date.getMonth();
+	      var minutes = date.getMinutes().toString().length < 10 ? '0' + date.getMinutes().toString() : date.getMinutes();
+	      var hours = date.getHours();
+	      var pmAm = hours > 12 ? 'PM' : 'AM';
+	      var day = monthNames[month];
+
+	      return day + ' ' + hours + ':' + minutes + ' ' + pmAm;
 	    }
 	  }]);
 
