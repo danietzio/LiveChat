@@ -21923,7 +21923,7 @@
 	              ),
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'chatMessagesContainer' },
+	                { className: 'chatMessagesContainer', id: 'chatMessageContainerID' },
 	                this.messagesTempate()
 	              )
 	            ),
@@ -21973,6 +21973,8 @@
 
 	      (0, _jquery2.default)(".sendBox form").on('submit', function (e) {
 	        e.preventDefault();
+	        var myDiv = (0, _jquery2.default)(".chatMessagesContainer");
+	        myDiv.animate({ scrollTop: myDiv[0].scrollHeight - myDiv.height() + 200 }, 200);
 
 	        // adding new anwser to our messages state
 	        var prevMessages = _this2.state.messages;

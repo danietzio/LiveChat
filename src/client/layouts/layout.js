@@ -49,7 +49,7 @@ export default class Layout extends React.Component {
                       </span>
                     </div>
                   </header>
-                  <div className="chatMessagesContainer">
+                  <div className="chatMessagesContainer" id="chatMessageContainerID">
                     { this.messagesTempate() }
                   </div>
                 </div>
@@ -83,6 +83,8 @@ export default class Layout extends React.Component {
 
         $(".sendBox form").on('submit', (e) => {
           e.preventDefault();
+          var myDiv = $(".chatMessagesContainer");
+          myDiv.animate({ scrollTop: myDiv[0].scrollHeight - myDiv.height() + 200}, 200);
 
           // adding new anwser to our messages state
           const prevMessages = this.state.messages;
@@ -193,4 +195,5 @@ export default class Layout extends React.Component {
 
       return day + ' ' + hours + ':' + minutes + ' ' + pmAm ;
     }
+
 }
