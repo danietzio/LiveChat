@@ -64,14 +64,6 @@ html {
   color : white;
 }
 
-.chatBox {
-  overflow-y: scroll;
-}
-
-.chatBox::-webkit-scrollbar {
-  opacity: 0;
-}
-
 .chatBox > header {
   font-size:20px;
   font-family: 'Bree Serif'
@@ -90,7 +82,6 @@ html {
   padding : 2%;
   opacity: 65%;
   margin-left : 2%;
-
 }
 
 /* Messages that sended and recieved */
@@ -241,19 +232,30 @@ header > div {
 }
 
 .chatMessagesContainer {
-  margin-top: 70px;
+  margin-top: 74px;
   font-size: 10px;
   text-align: left;
   font-family: 'Roboto';
+  height: 365px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding: 5px;
+  margin-left: -10px;
+}
+
+.chatMessagesContainer::-webkit-scrollbar {
+  opacity: 0;
 }
 
 .leftMsgContainer {
   direction: ltr;
+  margin-top: 1px;
 }
 
 .rightMsgContainer {
   direction: rtl;
   margin-right: 37px;
+  margin-top: 1px;
 }
 
 .leftMsg , .rightMsg {
