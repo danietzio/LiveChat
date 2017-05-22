@@ -45,7 +45,7 @@ function findAgent(client) {
   var agentIndex = -1;
 
   store.agents.map(function (val, i) {
-    if (val.id == store.clients[clientIndex].agentId) {
+    if (val.id == (store.clients[clientIndex] && store.clients[clientIndex].agentId)) {
       agentIndex = i;
     }
   });
@@ -151,7 +151,7 @@ io.on('connection', function (socket) {
   // handling comming messages from client
   socket.on('clientMessage', function (data) {
     // finding user supporter
-    var agentId = findAgent(socket).id;
+    var agentId = findAgent(socket) && findAgent(socket).id;
     var name = data.name,
         msg = data.msg,
         date = data.date;

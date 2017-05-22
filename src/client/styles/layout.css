@@ -263,12 +263,8 @@ header > div {
   margin-left: 25px;
   padding-left: 9px;
   padding-bottom: 9px;
-  padding-right: 1px;
+  padding-right: 10px;
   padding-top: 17px;
-}
-
-.leftMsg {
-  direction: rtl;
 }
 
 .rightMsg {
@@ -300,7 +296,7 @@ header > div {
   position: absolute;
   font-size: 7px;
   margin-top: -13px;
-  margin-left: 95px;
+  margin-left: 84px;
   color: #fdfdff;
 }
 
@@ -312,4 +308,9 @@ header > div {
   margin-left: 4px;
   color: #ffffff;
   font-size: 7px;
+}
+
+.leftMsg > span > span:nth-child(3),
+.rightMsg > span > span:nth-child(3) {
+  word-wrap: break-word;
 }

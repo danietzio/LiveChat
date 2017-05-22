@@ -4,6 +4,10 @@ import $ from 'jquery';
 // import css files
 import '../styles/layout.css';
 
+// checking last message sender
+// true means 'client'
+let sender = true;
+
 export default class Layout extends React.Component {
     constructor() {
       super();
@@ -78,10 +82,12 @@ export default class Layout extends React.Component {
         socket.emit('clientLogin', null);
 
         $(".sendBox form").on('submit', (e) => {
+          sender = true;
+
           e.preventDefault();
 
           // client anwser to agent
-          const clientAnwser = {
+          let clientAnwser = {
             name : 'client',
             msg :  $(".sendBox > form > input").val(),
             date : this.renderDate()
@@ -92,15 +98,42 @@ export default class Layout extends React.Component {
 
           // adding new anwser to our messages state
           const prevMessages = this.state.messages;
-          prevMessages.push(clientAnwser);
 
-          // updating previous messages
-          this.setState(() => {
-            return { message : prevMessages}
-          });
+          if(!sender || !this.state.messages.length) {
+            prevMessages.push(clientAnwser);
+
+            // updating previous messages
+            this.setState(() => {
+              return { message : prevMessages}
+            });
+
+          } else {
+            console.log("last messages", prevMessages);
+
+            // getting client last messagem
+            let lastMsg = prevMessages[ this.state.messages.length - 1];
+
+            // appending new message to last message
+            lastMsg.msg = lastMsg.msg + " " + clientAnwser.msg;
+
+            console.log("last message changed " , lastMsg);
+            prevMessages[ this.state.messages.length - 1 ] = lastMsg;
+
+            // updating previos messages
+            this.setState(() => {
+                return { messages : prevMessages }
+            });
+          }
+
+          // Making input empty
+          $(".sendBox > form > input").val('');
         });
 
+
         socket.on("serverAgentMessage", (newMessage) => {
+          // setting last sender to agent
+          sender = false
+
           // adding new anwser to our messages state
           const prevMessages = this.state.messages;
           prevMessages.push(newMessage);
@@ -114,19 +147,21 @@ export default class Layout extends React.Component {
 
     // function for rendering messages in template
     messagesTempate() {
-      return this.state.messages.map((msg) => {
+      const containerChecker = sender ? "leftMsgContainer" : "rightMsgContainer";
+      const msgChecker = sender ? "leftMsg" : "rightMsg";
+
+      return this.state.messages.map((data) => {
         return (
-            <div className="rightMsgContainer">
-              <div className="rightMsg">
+            <div className={ containerChecker }>
+              <div className={ msgChecker }>
                 <div></div>
                 <span>
-                  <span>May 10:20</span>
-                  <span>Client #1431</span>
-                  <span>I have a realy fucking problem!! </span>
+                  <span>{ data.date }</span>
+                  <span>{ data.name }</span>
+                  <span>{ data.msg }</span>
                 </span>
               </div>
             </div>
-
         )
       })
     }
