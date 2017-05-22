@@ -272,6 +272,10 @@ header > div {
   padding-left: 2px;
 }
 
+.rightMsg > span {
+  padding-left: 6px;
+}
+
 .leftMsg > div:nth-child(1) ,
 .rightMsg > div:nth-child(1)
 {
@@ -295,9 +299,13 @@ header > div {
 {
   position: absolute;
   font-size: 7px;
-  margin-top: -13px;
+  margin-top:   -13px;
   margin-left: 84px;
   color: #fdfdff;
+}
+
+.rightMsg > span > span:nth-child(1) {
+  margin-left : 74px;
 }
 
 .leftMsg > span > span:nth-child(2),

@@ -157,7 +157,7 @@ io.on('connection', function (socket) {
         date = data.date;
 
 
-    if (agentId) {
+    if (agentId && io.sockets.connected[agentId]) {
       io.sockets.connected[agentId].emit('serverClientMessage', {
         name: name,
         msg: msg,

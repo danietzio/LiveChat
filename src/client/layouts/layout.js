@@ -82,15 +82,14 @@ export default class Layout extends React.Component {
         socket.emit('clientLogin', null);
 
         $(".sendBox form").on('submit', (e) => {
-          sender = true;
-
           e.preventDefault();
 
           // client anwser to agent
           let clientAnwser = {
             name : 'client',
             msg :  $(".sendBox > form > input").val(),
-            date : this.renderDate()
+            date : this.renderDate(),
+            sender : true
           }
 
           // emiting anwser from client to agent
@@ -99,7 +98,10 @@ export default class Layout extends React.Component {
           // adding new anwser to our messages state
           const prevMessages = this.state.messages;
 
-          if(!sender || !this.state.messages.length) {
+          // getting client last messagem
+          let lastMsg = prevMessages[ this.state.messages.length - 1];
+
+          if(!this.state.messages.length || !lastMsg.sender) {
             prevMessages.push(clientAnwser);
 
             // updating previous messages
@@ -109,9 +111,6 @@ export default class Layout extends React.Component {
 
           } else {
             console.log("last messages", prevMessages);
-
-            // getting client last messagem
-            let lastMsg = prevMessages[ this.state.messages.length - 1];
 
             // appending new message to last message
             lastMsg.msg = lastMsg.msg + " " + clientAnwser.msg;
@@ -132,12 +131,13 @@ export default class Layout extends React.Component {
 
         socket.on("serverAgentMessage", (newMessage) => {
           // setting last sender to agent
-          sender = false
+          newMessage['sender'] = false;
 
           // adding new anwser to our messages state
           const prevMessages = this.state.messages;
-          prevMessages.push(newMessage);
 
+          prevMessages.push(newMessage);
+          console.log(prevMessages);
           // updating previous messages
           this.setState(() => {
             return { message : prevMessages }
@@ -147,10 +147,9 @@ export default class Layout extends React.Component {
 
     // function for rendering messages in template
     messagesTempate() {
-      const containerChecker = sender ? "leftMsgContainer" : "rightMsgContainer";
-      const msgChecker = sender ? "leftMsg" : "rightMsg";
-
       return this.state.messages.map((data) => {
+        const containerChecker = data.sender ? "leftMsgContainer" : "rightMsgContainer";
+        const msgChecker = data.sender ? "leftMsg" : "rightMsg";
         return (
             <div className={ containerChecker }>
               <div className={ msgChecker }>
