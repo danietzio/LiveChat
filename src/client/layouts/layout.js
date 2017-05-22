@@ -6,7 +6,7 @@ import '../styles/layout.css';
 
 // checking last message sender
 // true means 'client'
-let sender = true;
+let changed = false;
 
 export default class Layout extends React.Component {
     constructor() {
@@ -18,12 +18,12 @@ export default class Layout extends React.Component {
 
       // binding this class to functions
       this.messagesTempate = this.messagesTempate.bind(this);
+      this.isFirstOne = this.isFirstOne.bind(this);
+      this.getHeadTemplate = this.getHeadTemplate.bind(this);
     }
 
     // before that component rendered
-    componentWillMount() {
-
-    }
+    componentWillMount() {}
 
     render() {
       return(
@@ -84,60 +84,51 @@ export default class Layout extends React.Component {
         $(".sendBox form").on('submit', (e) => {
           e.preventDefault();
 
+          // adding new anwser to our messages state
+          const prevMessages = this.state.messages;
+
+          // Check that this message is head or not
+          const isFirstOne = this.isFirstOne();
+
           // client anwser to agent
           let clientAnwser = {
             name : 'client',
             msg :  $(".sendBox > form > input").val(),
             date : this.renderDate(),
-            sender : true
+            sender : true,
+            first : isFirstOne
           }
 
           // emiting anwser from client to agent
           socket.emit('clientMessage', clientAnwser);
 
-          // adding new anwser to our messages state
-          const prevMessages = this.state.messages;
-
           // getting client last messagem
           let lastMsg = prevMessages[ this.state.messages.length - 1];
+          prevMessages.push(clientAnwser);
 
-          if(!this.state.messages.length || !lastMsg.sender) {
-            prevMessages.push(clientAnwser);
-
-            // updating previous messages
-            this.setState(() => {
-              return { message : prevMessages}
-            });
-
-          } else {
-            console.log("last messages", prevMessages);
-
-            // appending new message to last message
-            lastMsg.msg = lastMsg.msg + " " + clientAnwser.msg;
-
-            console.log("last message changed " , lastMsg);
-            prevMessages[ this.state.messages.length - 1 ] = lastMsg;
-
-            // updating previos messages
-            this.setState(() => {
-                return { messages : prevMessages }
-            });
-          }
+          // updating previous messages
+          this.setState(() => {
+            return { message : prevMessages}
+          });
 
           // Making input empty
           $(".sendBox > form > input").val('');
         });
 
 
+        // Messages comming from Agent
         socket.on("serverAgentMessage", (newMessage) => {
+          // Check that this message is head or not
+          let isFirstOne = this.isFirstOne();
+
           // setting last sender to agent
-          newMessage['sender'] = false;
+          newMessage['first'] = !isFirstOne;
 
           // adding new anwser to our messages state
           const prevMessages = this.state.messages;
 
           prevMessages.push(newMessage);
-          console.log(prevMessages);
+
           // updating previous messages
           this.setState(() => {
             return { message : prevMessages }
@@ -153,7 +144,7 @@ export default class Layout extends React.Component {
         return (
             <div className={ containerChecker }>
               <div className={ msgChecker }>
-                <div></div>
+                { this.getHeadTemplate(data) }
                 <span>
                   <span>{ data.date }</span>
                   <span>{ data.name }</span>
@@ -163,6 +154,29 @@ export default class Layout extends React.Component {
             </div>
         )
       })
+    }
+
+    // checking that new message is head of previous messages or not ?~?~?
+    isFirstOne() {
+
+      // adding new anwser to our messages state
+      const prevMessages = this.state.messages;
+      let prevMsg = prevMessages[ prevMessages.length - 1 ];
+
+      if( !prevMessages.length || prevMsg.name != 'client') {
+        return true
+      } else {
+        return false;
+      }
+    }
+
+    // Returning head of message template
+    getHeadTemplate(data) {
+      if ( data.first ) {
+        return ( <div></div> )
+      } else {
+        return '';
+      }
     }
 
     // rendering date in specific template

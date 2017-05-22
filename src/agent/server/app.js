@@ -138,9 +138,11 @@ io.on('connection', function (socket) {
       if(data.clientId) {
         // getting agent response to client
         const { name, msg, date } = data;
-        io.sockets.connected[data.clientId]
-            .emit('serverAgentMessage',{name,msg,date});
 
+        if(io.sockets.connected[data.clientId]) {
+            io.sockets.connected[data.clientId]
+              .emit('serverAgentMessage',{name,msg,date});  
+        }
       } else {
         // we can't proper client
       }

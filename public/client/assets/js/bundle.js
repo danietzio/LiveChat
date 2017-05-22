@@ -21832,7 +21832,7 @@
 
 	// checking last message sender
 	// true means 'client'
-	var sender = true;
+	var changed = false;
 
 	var Layout = function (_React$Component) {
 	  _inherits(Layout, _React$Component);
@@ -21848,6 +21848,8 @@
 
 	    // binding this class to functions
 	    _this.messagesTempate = _this.messagesTempate.bind(_this);
+	    _this.isFirstOne = _this.isFirstOne.bind(_this);
+	    _this.getHeadTemplate = _this.getHeadTemplate.bind(_this);
 	    return _this;
 	  }
 
@@ -21972,58 +21974,50 @@
 	      (0, _jquery2.default)(".sendBox form").on('submit', function (e) {
 	        e.preventDefault();
 
+	        // adding new anwser to our messages state
+	        var prevMessages = _this2.state.messages;
+
+	        // Check that this message is head or not
+	        var isFirstOne = _this2.isFirstOne();
+
 	        // client anwser to agent
 	        var clientAnwser = {
 	          name: 'client',
 	          msg: (0, _jquery2.default)(".sendBox > form > input").val(),
 	          date: _this2.renderDate(),
-	          sender: true
+	          sender: true,
+	          first: isFirstOne
 	        };
 
 	        // emiting anwser from client to agent
 	        socket.emit('clientMessage', clientAnwser);
 
-	        // adding new anwser to our messages state
-	        var prevMessages = _this2.state.messages;
-
 	        // getting client last messagem
 	        var lastMsg = prevMessages[_this2.state.messages.length - 1];
+	        prevMessages.push(clientAnwser);
 
-	        if (!_this2.state.messages.length || !lastMsg.sender) {
-	          prevMessages.push(clientAnwser);
-
-	          // updating previous messages
-	          _this2.setState(function () {
-	            return { message: prevMessages };
-	          });
-	        } else {
-	          console.log("last messages", prevMessages);
-
-	          // appending new message to last message
-	          lastMsg.msg = lastMsg.msg + " " + clientAnwser.msg;
-
-	          console.log("last message changed ", lastMsg);
-	          prevMessages[_this2.state.messages.length - 1] = lastMsg;
-
-	          // updating previos messages
-	          _this2.setState(function () {
-	            return { messages: prevMessages };
-	          });
-	        }
+	        // updating previous messages
+	        _this2.setState(function () {
+	          return { message: prevMessages };
+	        });
 
 	        // Making input empty
 	        (0, _jquery2.default)(".sendBox > form > input").val('');
 	      });
 
+	      // Messages comming from Agent
 	      socket.on("serverAgentMessage", function (newMessage) {
+	        // Check that this message is head or not
+	        var isFirstOne = _this2.isFirstOne();
+
 	        // setting last sender to agent
-	        newMessage['sender'] = false;
+	        newMessage['first'] = !isFirstOne;
 
 	        // adding new anwser to our messages state
 	        var prevMessages = _this2.state.messages;
 
 	        prevMessages.push(newMessage);
-	        console.log(prevMessages);
+
 	        // updating previous messages
 	        _this2.setState(function () {
 	          return { message: prevMessages };
@@ -22036,6 +22030,8 @@
 	  }, {
 	    key: 'messagesTempate',
 	    value: function messagesTempate() {
+	      var _this3 = this;
+
 	      return this.state.messages.map(function (data) {
 	        var containerChecker = data.sender ? "leftMsgContainer" : "rightMsgContainer";
 	        var msgChecker = data.sender ? "leftMsg" : "rightMsg";
@@ -22045,7 +22041,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { className: msgChecker },
-	            _react2.default.createElement('div', null),
+	            _this3.getHeadTemplate(data),
 	            _react2.default.createElement(
 	              'span',
 	              null,
@@ -22068,6 +22064,35 @@
 	          )
 	        );
 	      });
+	    }
+
+	    // checking that new message is head of previous messages or not ?~?~?
+
+	  }, {
+	    key: 'isFirstOne',
+	    value: function isFirstOne() {
+
+	      // adding new anwser to our messages state
+	      var prevMessages = this.state.messages;
+	      var prevMsg = prevMessages[prevMessages.length - 1];
+
+	      if (!prevMessages.length || prevMsg.name != 'client') {
+	        return true;
+	      } else {
+	        return false;
+	      }
+	    }
+
+	    // Returning head of message template
+
+	  }, {
+	    key: 'getHeadTemplate',
+	    value: function getHeadTemplate(data) {
+	      if (data.first) {
+	        return _react2.default.createElement('div', null);
+	      } else {
+	        return '';
+	      }
 	    }
 
 	    // rendering date in specific template
@@ -31947,7 +31972,7 @@
 
 
 	// module
-	exports.push([module.id, "* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nhtml, body {\r\n  bottom : 0;\r\n  right: 0;\r\n}\r\n\r\nhtml {\r\n  bottom: 0;\r\n  position: fixed;\r\n  right: 4%;\r\n  height: 530px;\r\n  width: 400px;\r\n}\r\n\r\n\r\n/*Containers*/\r\n#root {\r\n  background: -webkit-linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* For Safari 5.1 to 6.0 */\r\n  background: -o-linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* For Opera 11.1 to 12.0 */\r\n  background: -moz-linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* For Firefox 3.6 to 15 */\r\n  background: linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* Standard syntax */\r\n  border-top-left-radius: 13px;\r\n  border-top-right-radius: 13px;\r\n  border-bottom-right-radius: 0px;\r\n  border-bottom-left-radius: 0px;\r\n  box-shadow: 0px 0px 7px black;\r\n\r\n}\r\n.appContainer {\r\n  width : 100%;\r\n  position : relative;\r\n  text-align: center;\r\n  height: 100%;\r\n  background: none;\r\n  margin :  0 auto;\r\n}\r\n\r\n.chatAppContainer {\r\n  height: 530px;\r\n  width: 400px;\r\n  text-align: center;\r\n  font-family: 'ubuntu';\r\n  margin : 0 auto;\r\n  background: none;\r\n  border-top-left-radius: 13px;\r\n  border-top-right-radius: 13px;\r\n  border-bottom-right-radius: 0px;\r\n  border-bottom-left-radius: 0px;\r\n}\r\n\r\n/* ChatBox && SendBox */\r\n.chatAppContainer > div {\r\n  margin : 0 auto;\r\n  padding : 1%;\r\n  direction : rtl;\r\n}\r\n\r\n/* ChatBox */\r\n.chatAppContainer > div:nth-child(1) {\r\n  height: 85%;\r\n  color : white;\r\n}\r\n\r\n.chatBox {\r\n  overflow-y: scroll;\r\n}\r\n\r\n.chatBox::-webkit-scrollbar {\r\n  opacity: 0;\r\n}\r\n\r\n.chatBox > header {\r\n  font-size:20px;\r\n  font-family: 'Bree Serif'\r\n}\r\n\r\n/* SendBox */\r\n.chatAppContainer > div:nth-child(2) {\r\n  height: 15%;;\r\n  background-color: rgba(31, 103, 159, 0.55);\r\n  font-family: 'Roboto', sans-serif;\r\n  color : white;\r\n  padding : 0px;\r\n  border-radius : 17px;\r\n  width: 80%;\r\n  height: 54px;\r\n  padding : 2%;\r\n  opacity: 65%;\r\n  margin-left : 2%;\r\n\r\n}\r\n\r\n/* Messages that sended and recieved */\r\n.quotas {\r\n  color : black;\r\n  text-align: left;\r\n  margin : 0% !important;\r\n  border-radius: 0% !important;\r\n}\r\n\r\n.quotas > span > span:nth-child(1) {\r\n  font-weight: bold;\r\n  padding-right: 10px;\r\n}\r\n.quotas > span > span:nth-child(1):after {\r\n  content : \" :\"\r\n}\r\n.quotas > span > span:nth-child(3) {\r\n  float : right;\r\n}\r\n\r\n/* Setting form and input setting */\r\nform {\r\n  height: 100%;\r\n  width: 100%;\r\n  opacity: 0.65\r\n}\r\n\r\nform > input , form > input:focus  {\r\n  background : none;\r\n  border : none;\r\n  width : 100%;\r\n  height: 100%;\r\n  padding : 10px;\r\n  outline: none;\r\n  color : white;\r\n  font-size: 18px;\r\n  direction: ltr;\r\n  font-weight: 300;\r\n}\r\n\r\nform > input::placeholder {\r\n  color : white;\r\n}\r\n\r\n/*image*/\r\n#sendImage {\r\n  background: url('http://localhost:8000/assets/images/6.png');\r\n  width: 35px;\r\n  height: 30px;\r\n  position: relative;\r\n  top: -38px;\r\n  right: -55px;\r\n  background-size: cover;\r\n  direction: rtl;\r\n}\r\n\r\n#isTyping {\r\n  position: relative;\r\n  top: -24px;\r\n  direction: ltr;\r\n  font-size: 'Roboto';\r\n  font-size: 10px;\r\n  text-align: left;\r\n  -webkit-font-smoothing: antialiased;\r\n  left : 10px;\r\n  font-weight: 100;\r\n}\r\n\r\n.circle {\r\n  width: 5px;\r\n  height: 5px;\r\n  background-color : white;\r\n  border-radius : 50%;\r\n  display: inline-block;\r\n  margin-left : 1px;\r\n}\r\n\r\n/* Header */\r\nheader {\r\n  direction: ltr;\r\n}\r\n\r\nheader > div {\r\n  display: inline-block;\r\n  direction: ltr;\r\n  font-family: 'Roboto', sans-serif;\r\n  font-size: 17px;\r\n}\r\n\r\n/* User Detail */\r\n.userDetail {\r\n  position: absolute;\r\n  margin-left: -180px;\r\n  font-size: 18px;\r\n  margin-top: 10px;\r\n}\r\n\r\n.userDetail > span > .circle {\r\n  width: 7px;\r\n  height: 7px;\r\n  background-color: #1EFFED\r\n}\r\n\r\n.userDetail > span > span:nth-child(2) {\r\n  font-weight: bold;\r\n  font-size: 17px;\r\n  letter-spacing: 0.02em;\r\n  margin-left: 3px;\r\n}\r\n\r\n.userDetail > span > span:nth-child(3) {\r\n  opacity: 0.76;\r\n  font-size: 12px;\r\n  margin-left: 3px\r\n}\r\n\r\n/* User Job */\r\n.userJob {\r\n  margin-left: 70px;\r\n  position: absolute;\r\n  margin-top : 7px;\r\n}\r\n\r\n.userJob > span > span:nth-child(3) {\r\n  opacity: 0.56;\r\n  font-size: 12px;\r\n  margin-top: -3px;\r\n  padding: 0px;\r\n  margin-left: -20px;\r\n  position: absolute;\r\n}\r\n\r\n/* User Image */\r\n.userImageContainer {\r\n  margin-left: -67px;\r\n  margin-top: -50px;\r\n  position: absolute;\r\n}\r\n\r\n.userImage {\r\n  background : url('http://localhost:8000/assets/images/2.jpg');\r\n  background-size: cover;\r\n  width: 120px;\r\n  height: 120px;\r\n  border-radius: 50%;\r\n  z-index: 100;\r\n}\r\n\r\n.chatMessagesContainer {\r\n  margin-top: 70px;\r\n  font-size: 10px;\r\n  text-align: left;\r\n  font-family: 'Roboto';\r\n}\r\n\r\n.leftMsgContainer {\r\n  direction: ltr;\r\n}\r\n\r\n.rightMsgContainer {\r\n  direction: rtl;\r\n  margin-right: 37px;\r\n}\r\n\r\n.leftMsg , .rightMsg {\r\n  max-width: 40%;\r\n  background: #002D56;\r\n  border-radius: 13px;\r\n  margin-left: 25px;\r\n  padding-left: 9px;\r\n  padding-bottom: 9px;\r\n  padding-right: 10px;\r\n  padding-top: 17px;\r\n}\r\n\r\n.rightMsg {\r\n  direction: ltr;\r\n  padding-left: 2px;\r\n}\r\n\r\n.rightMsg > span {\r\n  padding-left: 6px;\r\n}\r\n\r\n.leftMsg > div:nth-child(1) ,\r\n.rightMsg > div:nth-child(1)\r\n{\r\n  width: 25px;\r\n  height: 25px;\r\n  position: absolute;\r\n  background: url('http://localhost:8000/assets/images/2.jpg');\r\n  background-size: cover;\r\n  border-radius: 50%;\r\n  margin-left: -38px;\r\n  margin-top: -20px;\r\n  font-size: 7px;\r\n}\r\n\r\n.rightMsg > div:nth-child(1) {\r\n  margin-left: 141px;\r\n}\r\n\r\n.leftMsg > span > span:nth-child(1),\r\n.rightMsg > span > span:nth-child(1)\r\n{\r\n  position: absolute;\r\n  font-size: 7px;\r\n  margin-top: -13px;\r\n  margin-left: 84px;\r\n  color: #fdfdff;\r\n}\r\n\r\n.rightMsg > span > span:nth-child(1) {\r\n  margin-left : 74px;\r\n}\r\n\r\n.leftMsg > span > span:nth-child(2),\r\n.rightMsg > span > span:nth-child(2)\r\n{\r\n  position: absolute;\r\n  margin-top: -13px;\r\n  margin-left: 4px;\r\n  color: #ffffff;\r\n  font-size: 7px;\r\n}\r\n\r\n.leftMsg > span > span:nth-child(3),\r\n.rightMsg > span > span:nth-child(3) {\r\n  word-wrap: break-word;\r\n}\r\n", ""]);
+	exports.push([module.id, "* {\r\n  box-sizing: border-box;\r\n}\r\n\r\nhtml, body {\r\n  bottom : 0;\r\n  right: 0;\r\n}\r\n\r\nhtml {\r\n  bottom: 0;\r\n  position: fixed;\r\n  right: 4%;\r\n  height: 530px;\r\n  width: 400px;\r\n}\r\n\r\n\r\n/*Containers*/\r\n#root {\r\n  background: -webkit-linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* For Safari 5.1 to 6.0 */\r\n  background: -o-linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* For Opera 11.1 to 12.0 */\r\n  background: -moz-linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* For Firefox 3.6 to 15 */\r\n  background: linear-gradient(to bottom , #E30A84 0%, #3E8BFF); /* Standard syntax */\r\n  border-top-left-radius: 13px;\r\n  border-top-right-radius: 13px;\r\n  border-bottom-right-radius: 0px;\r\n  border-bottom-left-radius: 0px;\r\n  box-shadow: 0px 0px 7px black;\r\n\r\n}\r\n.appContainer {\r\n  width : 100%;\r\n  position : relative;\r\n  text-align: center;\r\n  height: 100%;\r\n  background: none;\r\n  margin :  0 auto;\r\n}\r\n\r\n.chatAppContainer {\r\n  height: 530px;\r\n  width: 400px;\r\n  text-align: center;\r\n  font-family: 'ubuntu';\r\n  margin : 0 auto;\r\n  background: none;\r\n  border-top-left-radius: 13px;\r\n  border-top-right-radius: 13px;\r\n  border-bottom-right-radius: 0px;\r\n  border-bottom-left-radius: 0px;\r\n}\r\n\r\n/* ChatBox && SendBox */\r\n.chatAppContainer > div {\r\n  margin : 0 auto;\r\n  padding : 1%;\r\n  direction : rtl;\r\n}\r\n\r\n/* ChatBox */\r\n.chatAppContainer > div:nth-child(1) {\r\n  height: 85%;\r\n  color : white;\r\n}\r\n\r\n.chatBox {\r\n  overflow-y: scroll;\r\n}\r\n\r\n.chatBox::-webkit-scrollbar {\r\n  opacity: 0;\r\n}\r\n\r\n.chatBox > header {\r\n  font-size:20px;\r\n  font-family: 'Bree Serif'\r\n}\r\n\r\n/* SendBox */\r\n.chatAppContainer > div:nth-child(2) {\r\n  height: 15%;;\r\n  background-color: rgba(31, 103, 159, 0.55);\r\n  font-family: 'Roboto', sans-serif;\r\n  color : white;\r\n  padding : 0px;\r\n  border-radius : 17px;\r\n  width: 80%;\r\n  height: 54px;\r\n  padding : 2%;\r\n  opacity: 65%;\r\n  margin-left : 2%;\r\n\r\n}\r\n\r\n/* Messages that sended and recieved */\r\n.quotas {\r\n  color : black;\r\n  text-align: left;\r\n  margin : 0% !important;\r\n  border-radius: 0% !important;\r\n}\r\n\r\n.quotas > span > span:nth-child(1) {\r\n  font-weight: bold;\r\n  padding-right: 10px;\r\n}\r\n.quotas > span > span:nth-child(1):after {\r\n  content : \" :\"\r\n}\r\n.quotas > span > span:nth-child(3) {\r\n  float : right;\r\n}\r\n\r\n/* Setting form and input setting */\r\nform {\r\n  height: 100%;\r\n  width: 100%;\r\n  opacity: 0.65\r\n}\r\n\r\nform > input , form > input:focus  {\r\n  background : none;\r\n  border : none;\r\n  width : 100%;\r\n  height: 100%;\r\n  padding : 10px;\r\n  outline: none;\r\n  color : white;\r\n  font-size: 18px;\r\n  direction: ltr;\r\n  font-weight: 300;\r\n}\r\n\r\nform > input::placeholder {\r\n  color : white;\r\n}\r\n\r\n/*image*/\r\n#sendImage {\r\n  background: url('http://localhost:8000/assets/images/6.png');\r\n  width: 35px;\r\n  height: 30px;\r\n  position: relative;\r\n  top: -38px;\r\n  right: -55px;\r\n  background-size: cover;\r\n  direction: rtl;\r\n}\r\n\r\n#isTyping {\r\n  position: relative;\r\n  top: -24px;\r\n  direction: ltr;\r\n  font-size: 'Roboto';\r\n  font-size: 10px;\r\n  text-align: left;\r\n  -webkit-font-smoothing: antialiased;\r\n  left : 10px;\r\n  font-weight: 100;\r\n}\r\n\r\n.circle {\r\n  width: 5px;\r\n  height: 5px;\r\n  background-color : white;\r\n  border-radius : 50%;\r\n  display: inline-block;\r\n  margin-left : 1px;\r\n}\r\n\r\n/* Header */\r\nheader {\r\n  direction: ltr;\r\n}\r\n\r\nheader > div {\r\n  display: inline-block;\r\n  direction: ltr;\r\n  font-family: 'Roboto', sans-serif;\r\n  font-size: 17px;\r\n}\r\n\r\n/* User Detail */\r\n.userDetail {\r\n  position: absolute;\r\n  margin-left: -180px;\r\n  font-size: 18px;\r\n  margin-top: 10px;\r\n}\r\n\r\n.userDetail > span > .circle {\r\n  width: 7px;\r\n  height: 7px;\r\n  background-color: #1EFFED\r\n}\r\n\r\n.userDetail > span > span:nth-child(2) {\r\n  font-weight: bold;\r\n  font-size: 17px;\r\n  letter-spacing: 0.02em;\r\n  margin-left: 3px;\r\n}\r\n\r\n.userDetail > span > span:nth-child(3) {\r\n  opacity: 0.76;\r\n  font-size: 12px;\r\n  margin-left: 3px\r\n}\r\n\r\n/* User Job */\r\n.userJob {\r\n  margin-left: 70px;\r\n  position: absolute;\r\n  margin-top : 7px;\r\n}\r\n\r\n.userJob > span > span:nth-child(3) {\r\n  opacity: 0.56;\r\n  font-size: 12px;\r\n  margin-top: -3px;\r\n  padding: 0px;\r\n  margin-left: -20px;\r\n  position: absolute;\r\n}\r\n\r\n/* User Image */\r\n.userImageContainer {\r\n  margin-left: -67px;\r\n  margin-top: -50px;\r\n  position: absolute;\r\n}\r\n\r\n.userImage {\r\n  background : url('http://localhost:8000/assets/images/2.jpg');\r\n  background-size: cover;\r\n  width: 120px;\r\n  height: 120px;\r\n  border-radius: 50%;\r\n  z-index: 100;\r\n}\r\n\r\n.chatMessagesContainer {\r\n  margin-top: 70px;\r\n  font-size: 10px;\r\n  text-align: left;\r\n  font-family: 'Roboto';\r\n}\r\n\r\n.leftMsgContainer {\r\n  direction: ltr;\r\n}\r\n\r\n.rightMsgContainer {\r\n  direction: rtl;\r\n  margin-right: 37px;\r\n}\r\n\r\n.leftMsg , .rightMsg {\r\n  max-width: 40%;\r\n  background: #002D56;\r\n  border-radius: 13px;\r\n  margin-left: 25px;\r\n  padding-bottom: 9px;\r\n  padding-right: 10px;\r\n  padding-top: 17px;\r\n  position : relative;\r\n}\r\n\r\n.leftMsg {\r\n  padding-left: 9px;\r\n  border-top-left-radius: 0px;\r\n  border-bottom-left-radius: 0px;\r\n}\r\n\r\n.rightMsg {\r\n  direction: ltr;\r\n  padding-left: 9px;\r\n  border-top-right-radius: 0px;\r\n  border-bottom-right-radius: 0px;\r\n}\r\n\r\n.leftMsg > span , .rightMsg > span {\r\n  position: relative;\r\n}\r\n\r\n.leftMsg > div:nth-child(1) ,\r\n.rightMsg > div:nth-child(1)\r\n{\r\n  width: 25px;\r\n  height: 25px;\r\n  position: absolute;\r\n  background: url('http://localhost:8000/assets/images/2.jpg');\r\n  background-size: cover;\r\n  border-radius: 50%;\r\n  margin-left: -38px;\r\n  margin-top: -20px;\r\n  font-size: 7px;\r\n}\r\n\r\n.rightMsg > div:nth-child(1) {\r\n  margin-left: 134px;\r\n}\r\n\r\n.leftMsg > span > span:nth-child(1),\r\n.rightMsg > span > span:nth-child(1)\r\n{\r\n  position: absolute;\r\n  font-size: 7px;\r\n  margin-top:   -13px;\r\n  margin-left: 84px;\r\n  color: #fdfdff;\r\n  width: 100px;\r\n}\r\n\r\n.rightMsg > span > span:nth-child(1) {\r\n  margin-left : 74px;\r\n}\r\n\r\n.leftMsg > span > span:nth-child(2),\r\n.rightMsg > span > span:nth-child(2)\r\n{\r\n  position: absolute;\r\n  margin-top: -13px;\r\n  margin-left: 4px;\r\n  color: #ffffff;\r\n  font-size: 7px;\r\n}\r\n\r\n.leftMsg > span > span:nth-child(3),\r\n.rightMsg > span > span:nth-child(3) {\r\n  word-wrap: break-word;\r\n}\r\n", ""]);
 
 	// exports
 

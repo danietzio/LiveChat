@@ -261,19 +261,27 @@ header > div {
   background: #002D56;
   border-radius: 13px;
   margin-left: 25px;
-  padding-left: 9px;
   padding-bottom: 9px;
   padding-right: 10px;
   padding-top: 17px;
+  position : relative;
+}
+
+.leftMsg {
+  padding-left: 9px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 .rightMsg {
   direction: ltr;
-  padding-left: 2px;
+  padding-left: 9px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
-.rightMsg > span {
-  padding-left: 6px;
+.leftMsg > span , .rightMsg > span {
+  position: relative;
 }
 
 .leftMsg > div:nth-child(1) ,
@@ -291,7 +299,7 @@ header > div {
 }
 
 .rightMsg > div:nth-child(1) {
-  margin-left: 141px;
+  margin-left: 134px;
 }
 
 .leftMsg > span > span:nth-child(1),
@@ -302,6 +310,7 @@ header > div {
   margin-top:   -13px;
   margin-left: 84px;
   color: #fdfdff;
+  width: 100px;
 }
 
 .rightMsg > span > span:nth-child(1) {

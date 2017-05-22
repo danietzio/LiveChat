@@ -142,7 +142,10 @@ io.on('connection', function (socket) {
           msg = data.msg,
           date = data.date;
 
-      io.sockets.connected[data.clientId].emit('serverAgentMessage', { name: name, msg: msg, date: date });
+
+      if (io.sockets.connected[data.clientId]) {
+        io.sockets.connected[data.clientId].emit('serverAgentMessage', { name: name, msg: msg, date: date });
+      }
     } else {
       // we can't proper client
     }
