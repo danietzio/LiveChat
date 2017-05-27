@@ -21973,6 +21973,8 @@
 
 	      (0, _jquery2.default)(".sendBox form").on('submit', function (e) {
 	        e.preventDefault();
+
+	        // Auto scroll to end of the div
 	        var myDiv = (0, _jquery2.default)(".chatMessagesContainer");
 	        myDiv.animate({ scrollTop: myDiv[0].scrollHeight - myDiv.height() + 200 }, 200);
 
@@ -22024,6 +22026,10 @@
 	        _this2.setState(function () {
 	          return { message: prevMessages };
 	        });
+
+	        // Auto scroll to end of the div
+	        var myDiv = (0, _jquery2.default)(".chatMessagesContainer");
+	        myDiv.animate({ scrollTop: myDiv[0].scrollHeight - myDiv.height() + 200 }, 200);
 	      });
 	    }
 

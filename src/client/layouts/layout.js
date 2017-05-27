@@ -83,6 +83,8 @@ export default class Layout extends React.Component {
 
         $(".sendBox form").on('submit', (e) => {
           e.preventDefault();
+
+          // Auto scroll to end of the div
           var myDiv = $(".chatMessagesContainer");
           myDiv.animate({ scrollTop: myDiv[0].scrollHeight - myDiv.height() + 200}, 200);
 
@@ -135,6 +137,11 @@ export default class Layout extends React.Component {
           this.setState(() => {
             return { message : prevMessages }
           });
+
+          // Auto scroll to end of the div
+          var myDiv = $(".chatMessagesContainer");
+          myDiv.animate({ scrollTop: myDiv[0].scrollHeight - myDiv.height() + 200}, 200);
+          
         });
     }
 
