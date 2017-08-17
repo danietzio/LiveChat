@@ -141,10 +141,10 @@ io.on('connection', function (socket) {
 
         if(io.sockets.connected[data.clientId]) {
             io.sockets.connected[data.clientId]
-              .emit('serverAgentMessage',{name,msg,date});  
+              .emit('serverAgentMessage',{name,msg,date});
         }
       } else {
-        // we can't proper client
+        // we can't find proper client
       }
 
   });

@@ -147,7 +147,7 @@ io.on('connection', function (socket) {
         io.sockets.connected[data.clientId].emit('serverAgentMessage', { name: name, msg: msg, date: date });
       }
     } else {
-      // we can't proper client
+      // we can't find proper client
     }
   });
 

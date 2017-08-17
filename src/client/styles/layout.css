@@ -129,7 +129,7 @@ form > input::placeholder {
 
 /*image*/
 #sendImage {
-  background: url('http://localhost:8000/assets/images/6.png');
+  background: url('http://localhost:8080/assets/images/6.png');
   width: 35px;
   height: 30px;
   position: relative;
