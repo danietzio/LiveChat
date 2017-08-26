@@ -1,3 +1,7 @@
 node_modules
 road.txt
 npm-debug.log
+public/client/assets/js/bundle.js
+public/agent/assets/js/bundle.js
+public/agent/assets/images
+public/client/assets/images
