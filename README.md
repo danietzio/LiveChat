@@ -20,14 +20,14 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
 > **Phase One**
   - [x] Desgining Beautiful Chat For client side.
   - [x] Desgining Beautiful Panel for agents.
-  - [ ] Sending and receiving messages.
-  - [ ] Sending files and images in chat.
-  - [ ] Sending stickers in chat.
-  - [ ] Capability of chatting with serveral users at the same time.
-  - [ ] Monitoring online customers activity.
-  - [ ] Getting each user information ( location, previous activity, email , .... )
-  - [ ] Saving customers chat history for increasing speed of response.
-  - [ ] Using redis for saving users details and chats history.
+  - [x] Sending and receiving messages.
+  - [x] Sending files and images in chat.
+  - [x] Sending stickers in chat.
+  - [x] Capability of chatting with serveral users at the same time.
+  - [x] Monitoring online customers activity.
+  - [x] Getting each user information ( location, previous activity, email , .... )
+  - [x] Saving customers chat history for increasing speed of response.
+  - [x] Using redis for saving users details and chats history.
   - [ ] Getting reports of accepted chats and missed chats in agents dashboard.
   - [ ] Getting reports of previous month activity for each agent.
   - [ ] Using charts for showing agents progress and reports in previous months.
