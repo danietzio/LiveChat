@@ -34,8 +34,8 @@ Modern, Beautiful and Fast Live Chat application that help your customers to sol
   - [ ] ...
   
 > **Phase Two**
-  - [ ] Replacing redis service with MongoDB service.
-  - [ ] Login and Sign out Ability for agents.
+  - [x] Replacing redis service with MongoDB service.
+  - [x] Login and Sign out Ability for agents.
   - [ ] Away/Busy state for each agent.
   - [ ] Drag && Drop ability of Live chat in client side.
   - [ ] Capability of opening more than one chat window in agent panel.
